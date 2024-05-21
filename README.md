@@ -87,7 +87,7 @@
 
 - [Spesification](https://bit.ly/spektubes3stima24)
 - [Teams](http://bit.ly/kelompoktubes3stima24)
-- [QNA](bit.ly/kelompoktubes3stima24)
+- [QNA](https://bit.ly/qnastima24)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
