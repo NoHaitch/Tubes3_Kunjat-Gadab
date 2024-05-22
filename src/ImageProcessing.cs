@@ -15,83 +15,33 @@ namespace src
         private const int threshold = 100;
 
         /// <summary>
-        /// Get a binary part of an image used as the target for string matching
+        /// Get a ascii part of an image used as the target for string matching
         /// </summary>
         /// <param name="imgPath">path to image</param>
-        /// <returns>String of Binary 1 or 0</returns>
-        public static string getImageBinaryPart(string imgPath)
+        /// <returns>8-bit ascii</returns>
+        public static string getImageAsciiPart(string imgPath)
         {
-            // Load image
-            Bitmap grayscaleImage = new Bitmap(imgPath);
+            string imgAscii = convertImageToAscii(imgPath);
 
-            // Get the width and height of the image
-            int width = grayscaleImage.Width;
-            int height = grayscaleImage.Height;
+            // Find the center of the binary string
+            int centerIndex = imgAscii.Length / 2;
 
-            // Get the center of the image
-            int centerX = width / 2;
-            int centerY = height / 2;
+            // Calculate the start index to extract 5 characters around the center
+            int startIndex = Math.Max(0, centerIndex - 2);
 
-            // Extract 35 pixels around the center
-            // Amount of pixel must be a multiplication of 7
-            // This is because 8-bit ascii efficiently only uses 7 bit 
+            // Ensure we don't go beyond the string length
+            int length = Math.Min(5, imgAscii.Length - startIndex);
 
-            // a list of boolean is used as the representation of a binary string
-            // true = 1, false = 0
-            List<bool> binaryPixels = new List<bool>();
-            int pixel_taken = 35;
+            // Extract 5 characters from the center
+            string asciiPart = imgAscii.Substring(startIndex, length);
 
-            // If the img is to small, get max of multiplication of 7 
-            if(width * height < pixel_taken)
+            if (asciiPart.Contains('?'))
             {
-                // Get the highest multiplication of 7
-                while(width * height < pixel_taken)
-                {
-                    pixel_taken -= 7;
-                }
-
-                // If pixel_taken is 0 or negatif
-                while(pixel_taken <= 0)
-                {
-                    pixel_taken += 7;
-                }
+                Console.WriteLine("FUCK");
             }
 
-            // Define the radius around the center to extract pixels from
-            int radius = (int) Math.Ceiling(Math.Sqrt(pixel_taken));
-
-            // Get the pixel from the center of the image going out
-            for (int y = centerY - radius; y <= centerY + radius && binaryPixels.Count < pixel_taken; y++)
-            {
-                for (int x = centerX - radius; x <= centerX + radius && binaryPixels.Count < pixel_taken; x++)
-                {
-                    if (x >= 0 && x < width && y >= 0 && y < height)
-                    {
-                        Color pixelColor = grayscaleImage.GetPixel(x, y);
-                        int pixelValue = pixelColor.R;
-                        bool isRidge = pixelValue < threshold;
-                        binaryPixels.Add(isRidge);
-                    }
-                }
-            }
-
-            // Ensure we have exactly have the same amount of pixels
-            while (binaryPixels.Count < pixel_taken)
-            {
-                binaryPixels.Add(false); 
-            }
-
-            // Build the binary string
-            StringBuilder binaryStringBuilder = new StringBuilder();
-            foreach (bool binaryPixel in binaryPixels)
-            {
-                binaryStringBuilder.Append(binaryPixel ? '1' : '0');
-            }
-
-            // Return the binary string
-            return binaryStringBuilder.ToString();
+            return asciiPart;
         }
-
 
         /// <summary>
         /// Convert a full image into a binary string with the same length as the total pixel in image
@@ -155,6 +105,17 @@ namespace src
 
             // Return the ASCII string
             return asciiStringBuilder.ToString();
+        }
+    
+        /// <summary>
+        /// Convert image to 8bit ascii string
+        /// </summary>
+        /// <param name="imgPath">path to image</param>
+        /// <returns>ascii string</returns>
+        public static string convertImageToAscii(string imgPath)
+        {
+            String binary = convertImageToBinary(imgPath);
+            return convertBinaryToAscii(binary);
         }
     }
 }
