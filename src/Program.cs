@@ -1,22 +1,27 @@
-﻿using System;
+﻿using src;
+using src.stringMatching;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Diagnostics;
 
-namespace src
+class Program
 {
-    internal static class Program
+    static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-        }
+        Console.WriteLine("\n==================== Program Started ====================\n");
+        Console.WriteLine("Resulting Match: \n");
+        string folderPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Hard";
+        string targetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\1__M_Left_index_finger_CR.BMP";
+
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        string result = FingerprintMatching.FingerprintAnalysis(targetPath, folderPath);
+        stopwatch.Stop();
+
+        Console.WriteLine($"\nFingerprintAnalysis took {stopwatch.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"FingerprintAnalysis took {stopwatch.ElapsedMilliseconds / 1000} s.\n");
+
+        Console.WriteLine("comparison:");
+        Console.WriteLine(ImageProcessing.ConvertImageToAscii(folderPath + "\\"+ result));
+        Console.WriteLine("Pattern: >>>'" + ImageProcessing.GetImageAsciiPart(targetPath) + "'<<<");
     }
 }

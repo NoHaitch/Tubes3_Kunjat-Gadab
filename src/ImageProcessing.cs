@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace src
 {
+    /// <summary>
+    /// Proses Image into Binary and Ascii
+    /// </summary>
     internal class ImageProcessing
     {
         /// <summary>
@@ -19,9 +20,9 @@ namespace src
         /// </summary>
         /// <param name="imgPath">path to image</param>
         /// <returns>8-bit ascii</returns>
-        public static string getImageAsciiPart(string imgPath)
+        public static string GetImageAsciiPart(string imgPath)
         {
-            string imgAscii = convertImageToAscii(imgPath);
+            string imgAscii = ConvertImageToAscii(imgPath);
 
             // Find the center of the binary string
             int centerIndex = imgAscii.Length / 2;
@@ -30,15 +31,10 @@ namespace src
             int startIndex = Math.Max(0, centerIndex - 2);
 
             // Ensure we don't go beyond the string length
-            int length = Math.Min(5, imgAscii.Length - startIndex);
+            int length = Math.Min(10, imgAscii.Length - startIndex);
 
             // Extract 5 characters from the center
             string asciiPart = imgAscii.Substring(startIndex, length);
-
-            if (asciiPart.Contains('?'))
-            {
-                Console.WriteLine("FUCK");
-            }
 
             return asciiPart;
         }
@@ -48,7 +44,7 @@ namespace src
         /// </summary>
         /// <param name="imgPath">path to image</param>
         /// <returns>String of Binary 1 or 0</returns>
-        public static string convertImageToBinary(string imgPath)
+        public static string ConvertImageToBinary(string imgPath)
         {
             // Load image
             Bitmap image = new Bitmap(imgPath);
@@ -83,7 +79,7 @@ namespace src
         /// </summary>
         /// <param name="binaryString">String of Binary 1 or 0</param>
         /// <returns>String of Ascii characters</returns>
-        public static string convertBinaryToAscii(string binaryString)
+        public static string ConvertBinaryToAscii(string binaryString)
         {
             StringBuilder asciiStringBuilder = new StringBuilder();
 
@@ -112,10 +108,10 @@ namespace src
         /// </summary>
         /// <param name="imgPath">path to image</param>
         /// <returns>ascii string</returns>
-        public static string convertImageToAscii(string imgPath)
+        public static string ConvertImageToAscii(string imgPath)
         {
-            String binary = convertImageToBinary(imgPath);
-            return convertBinaryToAscii(binary);
+            string binary = ConvertImageToBinary(imgPath);
+            return ConvertBinaryToAscii(binary);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace src.matchingAlgorithm
+namespace src.stringMatching
 {
     internal class BM
     {
@@ -78,6 +78,7 @@ namespace src.matchingAlgorithm
 
             for (int i = 0; i < m - 1; i++)
             {
+                // calculate bad match shift
                 badCharShift[pattern[i]] = m - 1 - i;
             }
 
