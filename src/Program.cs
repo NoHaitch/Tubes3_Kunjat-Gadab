@@ -1,8 +1,7 @@
-﻿using src;
-using src.stringMatching;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
+
+using src;
 
 class Program
 {

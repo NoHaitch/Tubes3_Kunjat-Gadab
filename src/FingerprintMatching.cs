@@ -1,7 +1,8 @@
-﻿using src.stringMatching;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
+using src.stringMatching;
+using src.image;
 
 namespace src
 {
@@ -13,7 +14,7 @@ namespace src
             string result = null;
 
             // image pattern
-            string pattern = ImageProcessing.GetImageAsciiPart(targetPath);
+            string pattern = ImageProcessing.GetAsciiPattern(targetPath);
 
             // get ascii of all images
             Dictionary<string, string> asciiMap = Data.ReadImages(datasetPath);
@@ -76,7 +77,7 @@ namespace src
             string result = null;
 
             // image pattern
-            string pattern = ImageProcessing.GetImageAsciiPart(targetPath);
+            string pattern = ImageProcessing.GetAsciiPattern(targetPath);
 
             // get ascii of all images
             Dictionary<string, string> asciiMap = Data.ReadImages(datasetPath);

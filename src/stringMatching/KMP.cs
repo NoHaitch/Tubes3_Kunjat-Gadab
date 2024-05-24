@@ -1,5 +1,7 @@
-﻿using src.stringMatching;
-using System;
+﻿using System;
+
+using src.image;
+using src.stringMatching;
 
 namespace src.stringMatching
 {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 
+using src.image;
+
 namespace src
 {
     internal class Data
