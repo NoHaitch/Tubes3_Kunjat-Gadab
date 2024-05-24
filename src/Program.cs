@@ -10,18 +10,24 @@ class Program
     {
         Console.WriteLine("\n==================== Program Started ====================\n");
         Console.WriteLine("Resulting Match: \n");
-        string folderPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Hard";
-        string targetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\1__M_Left_index_finger_CR.BMP";
+        string folderPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Medium";
+        string targetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\100__M_Left_index_finger_CR.BMP";
 
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        string result = FingerprintMatching.FingerprintAnalysis(targetPath, folderPath);
-        stopwatch.Stop();
+        Stopwatch stopwatch1 = Stopwatch.StartNew();
+        string result1 = FingerprintMatching.FingerprintAnalysisBM(targetPath, folderPath);
+        stopwatch1.Stop();
 
-        Console.WriteLine($"\nFingerprintAnalysis took {stopwatch.ElapsedMilliseconds} ms.");
-        Console.WriteLine($"FingerprintAnalysis took {stopwatch.ElapsedMilliseconds / 1000} s.\n");
+        Stopwatch stopwatch2 = Stopwatch.StartNew();
+        string result2 = FingerprintMatching.FingerprintAnalysisKMP(targetPath, folderPath);
+        stopwatch2.Stop();
 
-        Console.WriteLine("comparison:");
-        Console.WriteLine(ImageProcessing.ConvertImageToAscii(folderPath + "\\"+ result));
-        Console.WriteLine("Pattern: >>>'" + ImageProcessing.GetImageAsciiPart(targetPath) + "'<<<");
+
+        Console.WriteLine($"\nFingerprintAnalysisBM took {stopwatch1.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"FingerprintAnalysisBM took {stopwatch1.ElapsedMilliseconds / 1000} s.");
+        Console.WriteLine($"Result BM: {result1}\n");
+
+        Console.WriteLine($"\nFingerprintAnalysisKMP took {stopwatch2.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"FingerprintAnalysisKMP took {stopwatch2.ElapsedMilliseconds / 1000} s.");
+        Console.WriteLine($"Result KMP: {result2}\n");
     }
 }

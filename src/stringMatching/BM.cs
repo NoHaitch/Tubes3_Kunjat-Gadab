@@ -6,83 +6,80 @@ namespace src.stringMatching
     internal class BM
     {
         /// <summary>
-        /// Boyer Moore Algorithm
+        /// Boyer Moore Algorithm using character jump
         /// </summary>
         /// <param name="source">A full image ascii string</param>
         /// <param name="pattern">String pattern that will be searched</param>
-        /// <returns></returns>
-        public static int BMStringMatching(string source, string pattern)
+        /// <returns>True if the pattern exists in the source, otherwise false</returns>
+        public static bool BMStringMatching(string source, string pattern)
         {
             if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(pattern))
             {
                 Console.WriteLine("NULL");
-                return 0;
+                return false;
             }
 
-            int n = source.Length;
-            int m = pattern.Length;
-            int count = 0;
+            int sourceSize = source.Length;
+            int patternSize = pattern.Length;
 
-            Dictionary<char, int> badCharShift = BuildBadCharacterShift(pattern);
+            // Get last occurrence map
+            Dictionary<char, int> lastOccurrence = LastOccurrenceBuilder(pattern);
 
-            int s = 0;
-            while (s <= (n - m))
+            int mainIndex = 0;
+
+            while (mainIndex <= (sourceSize - patternSize))
             {
-                int j = m - 1;
+                // Looking glass Technique
+                // Start the check from the end of the pattern
+                int patternIndex = patternSize - 1;
 
                 // Check from right to left if the pattern matches the text
-                while (j >= 0 && pattern[j] == source[s + j])
-                    j--;
+                while (patternIndex >= 0 && pattern[patternIndex] == source[mainIndex + patternIndex])
+                    patternIndex--;
 
                 // If the pattern is found
-                if (j < 0)
+                if (patternIndex < 0)
                 {
-                    count++;
-                    // Move the pattern to align with the next character in the text
-                    int shift;
-                    if (s + m < n && badCharShift.TryGetValue(source[s + m], out shift))
-                    {
-                        s += m - shift;
-                    }
-                    else
-                    {
-                        s += 1;
-                    }
+                    // Pattern found, return true
+                    return true;
                 }
                 else
                 {
-                    // Move the pattern according to the bad character rule
-                    int shift;
-                    if (badCharShift.TryGetValue(source[s + j], out shift))
+                    // Character Jump Technique
+                    // Move the pattern according to the last occurrence map and rule
+                    int charShift;
+                    if (lastOccurrence.TryGetValue(source[mainIndex + patternIndex], out int shift))
                     {
-                        s += Math.Max(1, j - shift);
+                        charShift = Math.Max(1, patternIndex - shift);
                     }
                     else
                     {
-                        s += Math.Max(1, j - m);
+                        charShift = patternIndex + 1;
                     }
+                    mainIndex += charShift;
                 }
             }
 
-            return count;
+            // Pattern not found, return false
+            return false;
         }
 
         /// <summary>
-        /// Preprocess the pattern to create the bad character shift dictionary
+        /// Preprocess the pattern to create the a map of the last occurrence function
         /// </summary>
         /// <param name="pattern">Ascii String Pattern</param>
-        private static Dictionary<char, int> BuildBadCharacterShift(string pattern)
+        private static Dictionary<char, int> LastOccurrenceBuilder(string pattern)
         {
-            int m = pattern.Length;
-            Dictionary<char, int> badCharShift = new Dictionary<char, int>();
+            int size = pattern.Length;
+            Dictionary<char, int> lastOccurrence = new Dictionary<char, int>();
 
-            for (int i = 0; i < m - 1; i++)
+            for (int i = 0; i < size; i++)
             {
-                // calculate bad match shift
-                badCharShift[pattern[i]] = m - 1 - i;
+                // Map each character to its last position in the pattern
+                lastOccurrence[pattern[i]] = i;
             }
 
-            return badCharShift;
+            return lastOccurrence;
         }
     }
 }
