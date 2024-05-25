@@ -31,8 +31,6 @@ namespace src.image
             // Extract 42 bits from the center box
             string asciiPattern = binaryString.Substring(centerIndex, 42);
 
-            Console.WriteLine(asciiPattern);
-
             // Convert the binary pattern to ASCII
             return ConvertBinaryToAscii(asciiPattern);
         }
@@ -104,9 +102,10 @@ namespace src.image
                 }
 
                 // Append the row's binary string to the full binary string
-                binaryStringBuilder.AppendLine(rowStringBuilder.ToString());
+                binaryStringBuilder.Append(rowStringBuilder.ToString());
             }
         }
+
 
 
         /// <summary>
