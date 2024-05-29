@@ -1,3 +1,7 @@
 **/.vs
 bin/
 obj/
+*.dylib
+/src/libmongocrypt.so
+/src/mongocrypt.dll
+/src/packages

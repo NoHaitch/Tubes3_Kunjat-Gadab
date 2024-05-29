@@ -2,12 +2,15 @@
 using System.Diagnostics;
 
 using src;
+using src.database;
 
 class Program
 {
     static void Main()
     {
         Console.WriteLine("\n==================== Program Started ====================\n");
+        Database.connect();
+        Console.WriteLine("Connected to databases");
         Console.WriteLine("Resulting Match: \n");
         string folderPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Medium";
         string targetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\100__M_Left_index_finger_CR.BMP";
