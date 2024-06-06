@@ -1,49 +1,92 @@
-﻿using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 
 namespace src.database
 {
     public static class Database
     {
+        static MySqlConnection connection;
         public static void connect()
         {
-            string connectionString = "mongodb://localhost:27017";
-
-            var client = new MongoClient(connectionString);
-
-            var database = client.GetDatabase("fingerprint");
-            
-            var collections = database.ListCollectionNames().ToList();
-
-            // Create collections identity
-            if (!collections.Contains("identity"))
+            string connectionString = "Server=localhost;Port=3307;Database=fingerprint;Uid=user;Pwd=password;";
+            connection = new MySqlConnection(connectionString);
+            try
             {
-                database.CreateCollection("identity");
-                Console.WriteLine("Collection identity created");
+                connection.Open();
+                string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'fingerprint'";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                Console.WriteLine("Tables:");
+                while (reader.Read())
+                {
+                    string tableName = reader["table_name"].ToString();
+                    Console.WriteLine(tableName);
+                }
+
+                reader.Close();
+                command.Dispose();
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Collection 'samples' already exists.");
+                Console.WriteLine($"Error: {ex.Message}");
             }
+        }
 
-            if (!collections.Contains("fingerprint"))
+        public static void disconnect()
+        {
+            try
             {
-                database.CreateCollection("fingerprint");
-                Console.WriteLine("Collection fingerprint created");
-            } else
+                connection.Close();
+            } catch (Exception ex)
             {
-                Console.WriteLine("Fingerprint already exist!");
+                Console.WriteLine($"Error: {ex.Message}");
             }
+        }
 
-            // Print database names
-            Console.WriteLine("Databases:");
-            foreach (var db in collections)
+        public static string GetConnectionString()
+        {
+            return connection.ConnectionString;
+        }
+
+        public static MySqlDataReader select(String query)
+        {
+            MySqlCommand mySqlCommand = new MySqlCommand(query, connection);
+            return mySqlCommand.ExecuteReader();
+        }
+
+        public static MySqlDataReader selectAllFingerprint()
+        {
+            return select("SELECT * FROM sidik_jari");
+        }
+
+        public static MySqlDataReader selectAllBiodata()
+        {
+            return select("SELECT * FROM biodata");
+        }
+
+        public static MySqlDataReader selectAllBiodata(String name)
+        {
+            return select($"SELECT * FROM biodata WHERE nama={name}");
+        }
+
+        public static void TMain()
+        {
+            connect();
+            MySqlDataReader test = select("SELECT * FROM biodata WHERE jenis_kelamin = 'Laki-Laki';");
+            try
             {
-                Console.WriteLine(db);
+                while (test.Read())
+                {
+                    Console.WriteLine(test["nama"].ToString());
+                }
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 

@@ -1,12 +1,19 @@
 version: '3.8'
+
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
+  db:
+    image: mysql:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: fingerprint
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     volumes:
-      - mongodb_data:/data/db
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3307:3306"
 
 volumes:
-  mongodb_data:
+  db_data:
