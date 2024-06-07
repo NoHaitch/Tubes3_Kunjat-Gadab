@@ -1,30 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using src;
+using System.Diagnostics;
 
-namespace src
+using src;
+using src.database;
+
+class Program
 {
-    internal static class Program
+    static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            try
-            {
-                Application.Run(new gui.Form1());
-            }
-            catch (NotImplementedException e)
-            {
-                Console.Write(e.Message);
-            }
-        }
+        Console.WriteLine("\n==================== Program Started ====================\n");
+        Database.connect();
+        Console.WriteLine("Connected to databases");
+        Console.WriteLine("Resulting Match: \n");
+        string folderPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Medium";
+        string targetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\100__M_Left_index_finger_CR.BMP";
+
+        Stopwatch stopwatch1 = Stopwatch.StartNew();
+        string result1 = FingerprintMatching.FingerprintAnalysisBM(targetPath, folderPath);
+        stopwatch1.Stop();
+
+        Stopwatch stopwatch2 = Stopwatch.StartNew();
+        string result2 = FingerprintMatching.FingerprintAnalysisKMP(targetPath, folderPath);
+        stopwatch2.Stop();
+
+
+        Console.WriteLine($"\nFingerprintAnalysisBM took {stopwatch1.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"FingerprintAnalysisBM took {stopwatch1.ElapsedMilliseconds / 1000} s.");
+        Console.WriteLine($"Result BM: {result1}\n");
+
+        Console.WriteLine($"\nFingerprintAnalysisKMP took {stopwatch2.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"FingerprintAnalysisKMP took {stopwatch2.ElapsedMilliseconds / 1000} s.");
+        Console.WriteLine($"Result KMP: {result2}\n");
     }
 }
