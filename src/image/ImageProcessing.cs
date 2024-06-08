@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 
 namespace src.image
 {
     /// <summary>
-    /// Proses Image into Binary and Ascii
+    /// Proses Image into Binary and Ascii as well as pattern pattern extraction
     /// </summary>
     internal class ImageProcessing
     {
@@ -16,30 +15,33 @@ namespace src.image
         private const int Threshold = 100;
 
         /// <summary>
-        /// Get a 6-character ASCII pattern from the center box of the image.
+        /// Get an 8-character ASCII pattern from the center box of the image
         /// </summary>
-        /// <param name="imgPath">Path to image.</param>
-        /// <returns>6-character ASCII pattern.</returns>
-        public static string GetAsciiPattern(string imgPath)
+        /// <param name="imgPath">Path to image</param>
+        /// <returns>Array of 8-character ASCII pattern.</returns>
+        public static string[] GetAsciiPattern(string imgPath)
         {
-            // Convert the image to binary
-            string binaryString = ConvertImageToBinary(imgPath);
+            string fullAscii = ConvertImageToAscii(imgPath);
+            string[] asciiPatterns = new string[9];
 
-            // Calculate the center box position
-            int centerIndex = binaryString.Length / 2 - 21; // 21 is half of 7 * 3
+            // Divide the image into 9 sections and extract the center 8 characters from each section
+            for (int i = 0; i < 9; i++)
+            {
+                int sectionStartIndex = i * (fullAscii.Length / 9);
+                int sectionCenterIndex = sectionStartIndex + (fullAscii.Length / 18) - 4;
 
-            // Extract 42 bits from the center box
-            string asciiPattern = binaryString.Substring(centerIndex, 42);
+                // Extract 8 characters from the center of the section
+                asciiPatterns[i] = fullAscii.Substring(sectionCenterIndex, 8);
+            }
 
-            // Convert the binary pattern to ASCII
-            return ConvertBinaryToAscii(asciiPattern);
+            return asciiPatterns;
         }
 
         /// <summary>
         /// Convert a full image into a binary string with the same length as the total pixel in image
         /// </summary>
-        /// <param name="imgPath">path to image</param>
-        /// <returns>String of Binary 1 or 0</returns>
+        /// <param name="imgPath">Path to image</param>
+        /// <returns>String of character 1 or 0</returns>
         public static string ConvertImageToBinary(string imgPath)
         {
             Bitmap image = new Bitmap(imgPath);
@@ -48,33 +50,46 @@ namespace src.image
             StringBuilder binaryStringBuilder = new StringBuilder();
 
             // Determine the number of full boxes needed in width and height
-            int numFullBoxesX = width / 7;
+            int numFullBoxesX = width / 8;
             int numFullBoxesY = height / 2;
 
-            // Determine the width and height of the last partial box
-            int lastBoxWidth = width % 7;
+            // Determine the width and height of the last partial box if the width and height are not divisible by 8 or 2
+            int lastBoxWidth = width % 8;
             int lastBoxHeight = height % 2;
 
-            // Group pixels into full boxes of size 7x2
+            // Group pixels into full boxes of size 8x2
             for (int y = 0; y < numFullBoxesY * 2; y += 2)
             {
-                for (int x = 0; x < numFullBoxesX * 7; x += 7)
+                for (int x = 0; x < numFullBoxesX * 8; x += 8)
                 {
-                    AppendBoxBinary(image, x, y, 7, 2, binaryStringBuilder);
+                    // Append the box's binary string to the full binary string
+                    AppendBoxBinary(image, x, y, 8, 2, binaryStringBuilder);
                 }
             }
 
             // Handle the last partial box
             if (lastBoxWidth > 0 || lastBoxHeight > 0)
             {
-                int lastBoxX = numFullBoxesX * 7;
+                // Determine the coordinates of the last box
+                int lastBoxX = numFullBoxesX * 8;
                 int lastBoxY = numFullBoxesY * 2;
+
+                // Append the last box's binary string to the full binary string
                 AppendBoxBinary(image, lastBoxX, lastBoxY, lastBoxWidth, lastBoxHeight, binaryStringBuilder);
             }
 
             return binaryStringBuilder.ToString();
         }
 
+        /// <summary>
+        /// Append a box of pixels to a binary string
+        /// </summary>
+        /// <param name="image">Image to extract pixels from</param>
+        /// <param name="x">X coordinate of the box</param>
+        /// <param name="y">Y coordinate of the box</param>
+        /// <param name="boxWidth">Width of the box</param>
+        /// <param name="boxHeight">Height of the box</param>
+        /// <param name="binaryStringBuilder">StringBuilder to append the binary string to</param>
         private static void AppendBoxBinary(Bitmap image, int x, int y, int boxWidth, int boxHeight, StringBuilder binaryStringBuilder)
         {
             // Iterate over rows in the box
@@ -91,12 +106,13 @@ namespace src.image
                         // Get pixel color value
                         Color pixelColor = image.GetPixel(x + i, y + j);
                         int pixelValue = pixelColor.R;
+
                         // Append '1' if pixel is a ridge, '0' otherwise
                         rowStringBuilder.Append(pixelValue < Threshold ? '1' : '0');
                     }
                     else
                     {
-                        // Append '0' if the pixel is outside the image boundaries
+                        // filled empty space with '0'
                         rowStringBuilder.Append('0');
                     }
                 }
@@ -110,8 +126,7 @@ namespace src.image
 
         /// <summary>
         /// Convert a Binary String to 8-bit Ascii <br></br>
-        /// Every 7 bit is converted to an Ascii character <br></br>
-        /// 8-bit Ascii only have 7-bit thats is significant, 1 bit is not used
+        /// Every 8 bits are converted to an Ascii character.
         /// </summary>
         /// <param name="binaryString">String of Binary 1 or 0</param>
         /// <returns>String of Ascii characters</returns>
@@ -119,13 +134,13 @@ namespace src.image
         {
             StringBuilder asciiStringBuilder = new StringBuilder();
 
-            // Iterate over the binary string in groups of 7 bits
-            for (int i = 0; i < binaryString.Length; i += 7)
+            // Iterate over the binary string in groups of 8 bits
+            for (int i = 0; i < binaryString.Length; i += 8)
             {
-                // Get a 7 bit binary group
-                string binaryGroup = binaryString.Substring(i, Math.Min(7, binaryString.Length - i));
+                // Get an 8 bit binary group
+                string binaryGroup = binaryString.Substring(i, Math.Min(8, binaryString.Length - i));
 
-                // Convert the binary group to an 
+                // Convert the binary group to an integer ASCII value
                 int asciiValue = Convert.ToInt32(binaryGroup, 2);
 
                 // Convert the integer ASCII value to a character
@@ -138,12 +153,12 @@ namespace src.image
             // Return the ASCII string
             return asciiStringBuilder.ToString();
         }
-    
+
         /// <summary>
-        /// Convert image to 8bit ascii string
+        /// Convert image to 8-bit ASCII string
         /// </summary>
         /// <param name="imgPath">path to image</param>
-        /// <returns>ascii string</returns>
+        /// <returns>ASCII string</returns>
         public static string ConvertImageToAscii(string imgPath)
         {
             string binary = ConvertImageToBinary(imgPath);

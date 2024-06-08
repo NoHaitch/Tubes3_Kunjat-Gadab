@@ -186,11 +186,9 @@
     <Compile Include="database\Database.cs" />
     <Compile Include="FingerprintMatching.cs" />
     <Compile Include="image\ImageDBController.cs" />
+    <Compile Include="image\ImageProcessing.cs" />
     <Compile Include="stringMatching\BM.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="image\ImageProcessing.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="gui\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
