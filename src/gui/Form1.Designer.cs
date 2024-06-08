@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace src.gui
 {
@@ -30,12 +31,11 @@ namespace src.gui
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.timeTakenText = new System.Windows.Forms.Label();
             this.matchPercentageText = new System.Windows.Forms.Label();
-            this.identityCounterText = new System.Windows.Forms.Label();
             this.exitButton = new System.Windows.Forms.Button();
-            this.prevButton = new System.Windows.Forms.Button();
-            this.nextButton = new System.Windows.Forms.Button();
             this.identityLabel = new System.Windows.Forms.Label();
             this.BMButton = new System.Windows.Forms.Button();
             this.KMPButton = new System.Windows.Forms.Button();
@@ -47,7 +47,7 @@ namespace src.gui
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.uploadedText = new System.Windows.Forms.Label();
             this.matchedText = new System.Windows.Forms.Label();
-            this.timeTakenText = new System.Windows.Forms.Label();
+            this.selectImageDialog = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fingerBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uploadedBox)).BeginInit();
@@ -57,11 +57,9 @@ namespace src.gui
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(8)))), ((int)(((byte)(14)))));
+            this.panel1.Controls.Add(this.timeTakenText);
             this.panel1.Controls.Add(this.matchPercentageText);
-            this.panel1.Controls.Add(this.identityCounterText);
             this.panel1.Controls.Add(this.exitButton);
-            this.panel1.Controls.Add(this.prevButton);
-            this.panel1.Controls.Add(this.nextButton);
             this.panel1.Controls.Add(this.identityLabel);
             this.panel1.ForeColor = System.Drawing.Color.White;
             this.panel1.Location = new System.Drawing.Point(1000, 0);
@@ -71,35 +69,38 @@ namespace src.gui
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // timeTakenText
+            // 
+            this.timeTakenText.AutoSize = true;
+            this.timeTakenText.BackColor = System.Drawing.Color.Transparent;
+            this.timeTakenText.Font = new System.Drawing.Font("Cascadia Mono", 12F);
+            this.timeTakenText.ForeColor = System.Drawing.Color.White;
+            this.timeTakenText.Location = new System.Drawing.Point(44, 72);
+            this.timeTakenText.Name = "timeTakenText";
+            this.timeTakenText.Size = new System.Drawing.Size(280, 32);
+            this.timeTakenText.TabIndex = 3;
+            this.timeTakenText.Text = "Time Taken: 1000 ms";
+            // 
             // matchPercentageText
             // 
             this.matchPercentageText.AutoSize = true;
             this.matchPercentageText.BackColor = System.Drawing.Color.Transparent;
             this.matchPercentageText.Font = new System.Drawing.Font("Cascadia Mono", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.matchPercentageText.ForeColor = System.Drawing.Color.White;
-            this.matchPercentageText.Location = new System.Drawing.Point(396, 75);
+            this.matchPercentageText.Location = new System.Drawing.Point(396, 72);
             this.matchPercentageText.Name = "matchPercentageText";
             this.matchPercentageText.Size = new System.Drawing.Size(154, 32);
             this.matchPercentageText.TabIndex = 7;
             this.matchPercentageText.Text = "Match: 98%";
             // 
-            // identityCounterText
-            // 
-            this.identityCounterText.AutoSize = true;
-            this.identityCounterText.Font = new System.Drawing.Font("Cascadia Mono", 12F);
-            this.identityCounterText.Location = new System.Drawing.Point(50, 75);
-            this.identityCounterText.Name = "identityCounterText";
-            this.identityCounterText.Size = new System.Drawing.Size(84, 32);
-            this.identityCounterText.TabIndex = 3;
-            this.identityCounterText.Text = "01/60";
-            // 
             // exitButton
             // 
             this.exitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(8)))), ((int)(((byte)(14)))));
             this.exitButton.FlatAppearance.BorderSize = 0;
+            this.exitButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(8)))), ((int)(((byte)(14)))));
             this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exitButton.Font = new System.Drawing.Font("Cascadia Mono", 12F, System.Drawing.FontStyle.Bold);
-            this.exitButton.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.exitButton.ForeColor = System.Drawing.Color.White;
             this.exitButton.Location = new System.Drawing.Point(552, 3);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(45, 45);
@@ -107,55 +108,27 @@ namespace src.gui
             this.exitButton.Text = "X";
             this.exitButton.UseVisualStyleBackColor = false;
             this.exitButton.Click += new System.EventHandler(this.exit_clicked);
-            // 
-            // prevButton
-            // 
-            this.prevButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
-            this.prevButton.FlatAppearance.BorderSize = 3;
-            this.prevButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
-            this.prevButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.prevButton.Font = new System.Drawing.Font("Cascadia Mono", 14F, System.Drawing.FontStyle.Bold);
-            this.prevButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
-            this.prevButton.Location = new System.Drawing.Point(50, 805);
-            this.prevButton.Name = "prevButton";
-            this.prevButton.Size = new System.Drawing.Size(245, 60);
-            this.prevButton.TabIndex = 5;
-            this.prevButton.Text = "Previous";
-            this.prevButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.prevButton.UseVisualStyleBackColor = true;
-            this.prevButton.Click += new System.EventHandler(this.prevButton_clicked);
-            // 
-            // nextButton
-            // 
-            this.nextButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
-            this.nextButton.FlatAppearance.BorderSize = 3;
-            this.nextButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
-            this.nextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.nextButton.Font = new System.Drawing.Font("Cascadia Mono", 14F, System.Drawing.FontStyle.Bold);
-            this.nextButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
-            this.nextButton.Location = new System.Drawing.Point(305, 805);
-            this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(245, 60);
-            this.nextButton.TabIndex = 4;
-            this.nextButton.Text = "Next";
-            this.nextButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.nextButton.UseVisualStyleBackColor = true;
-            this.nextButton.Click += new System.EventHandler(this.nextButton_clicked);
+            this.exitButton.MouseEnter += new System.EventHandler(this.exit_enter);
+            this.exitButton.MouseLeave += new System.EventHandler(this.exit_leave);
             // 
             // identityLabel
             // 
             this.identityLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.identityLabel.Font = new System.Drawing.Font("Cascadia Mono", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.identityLabel.Location = new System.Drawing.Point(50, 116);
+            this.identityLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.identityLabel.Font = new System.Drawing.Font("Cascadia Mono", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.identityLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(41)))), ((int)(((byte)(71)))));
+            this.identityLabel.Location = new System.Drawing.Point(50, 120);
             this.identityLabel.Name = "identityLabel";
-            this.identityLabel.Size = new System.Drawing.Size(500, 670);
+            this.identityLabel.Size = new System.Drawing.Size(500, 700);
             this.identityLabel.TabIndex = 3;
-            this.identityLabel.Tag = "";
+            this.identityLabel.Text = resources.GetString("identityLabel.Text");
             // 
             // BMButton
             // 
+            this.BMButton.BackColor = System.Drawing.Color.Black;
             this.BMButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
             this.BMButton.FlatAppearance.BorderSize = 4;
+            this.BMButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
             this.BMButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BMButton.Font = new System.Drawing.Font("Cascadia Mono", 12F, System.Drawing.FontStyle.Bold);
             this.BMButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
@@ -165,12 +138,14 @@ namespace src.gui
             this.BMButton.TabIndex = 1;
             this.BMButton.Text = "BM";
             this.BMButton.UseVisualStyleBackColor = true;
+            this.BMButton.Click += new System.EventHandler(this.toggleAlgorithmClick);
             // 
             // KMPButton
             // 
             this.KMPButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
             this.KMPButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
             this.KMPButton.FlatAppearance.BorderSize = 4;
+            this.KMPButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
             this.KMPButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.KMPButton.Font = new System.Drawing.Font("Cascadia Mono", 12F, System.Drawing.FontStyle.Bold);
             this.KMPButton.ForeColor = System.Drawing.Color.White;
@@ -180,13 +155,14 @@ namespace src.gui
             this.KMPButton.TabIndex = 1;
             this.KMPButton.Text = "KMP";
             this.KMPButton.UseVisualStyleBackColor = true;
+            this.KMPButton.Click += new System.EventHandler(this.toggleAlgorithmClick);
             // 
             // SelectFileButton
             // 
             this.SelectFileButton.BackColor = System.Drawing.Color.Black;
             this.SelectFileButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
             this.SelectFileButton.FlatAppearance.BorderSize = 3;
-            this.SelectFileButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.SelectFileButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
             this.SelectFileButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
             this.SelectFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SelectFileButton.Font = new System.Drawing.Font("Cascadia Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -197,19 +173,19 @@ namespace src.gui
             this.SelectFileButton.TabIndex = 0;
             this.SelectFileButton.Text = "Select File";
             this.SelectFileButton.UseVisualStyleBackColor = false;
-            this.SelectFileButton.MouseHover += new System.EventHandler(this.SelectFileButton_hover);
             this.SelectFileButton.Click += new System.EventHandler(this.SelectFileButton_click);
             // 
             // SearchButton
             // 
-            this.SearchButton.BackColor = System.Drawing.Color.Black;
-            this.SearchButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
+            this.SearchButton.BackColor = System.Drawing.Color.Transparent;
+            this.SearchButton.Enabled = false;
+            this.SearchButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
             this.SearchButton.FlatAppearance.BorderSize = 3;
-            this.SearchButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.SearchButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
             this.SearchButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
             this.SearchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SearchButton.Font = new System.Drawing.Font("Cascadia Mono", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SearchButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(28)))), ((int)(((byte)(65)))));
+            this.SearchButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
             this.SearchButton.Location = new System.Drawing.Point(650, 720);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(220, 60);
@@ -217,7 +193,6 @@ namespace src.gui
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = false;
             this.SearchButton.Click += new System.EventHandler(this.SearchButton_click);
-            this.SearchButton.MouseHover += new System.EventHandler(this.SearchButton_hover);
             // 
             // Title
             // 
@@ -225,9 +200,9 @@ namespace src.gui
             this.Title.BackColor = System.Drawing.Color.Black;
             this.Title.Font = new System.Drawing.Font("Cascadia Mono", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(41)))), ((int)(((byte)(71)))));
-            this.Title.Location = new System.Drawing.Point(173, 25);
+            this.Title.Location = new System.Drawing.Point(121, 30);
             this.Title.Margin = new System.Windows.Forms.Padding(0);
-            this.Title.Name = "label1";
+            this.Title.Name = "Title";
             this.Title.Size = new System.Drawing.Size(758, 74);
             this.Title.TabIndex = 3;
             this.Title.Text = "FINGERPRINT IDENTIFIER";
@@ -254,10 +229,10 @@ namespace src.gui
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Image = global::src.Properties.Resources.Logo_Red;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(23, 13);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(120, 120);
+            this.pictureBox1.Size = new System.Drawing.Size(110, 110);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -288,17 +263,9 @@ namespace src.gui
             this.matchedText.Text = "Matched Fingerprint";
             this.matchedText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // timeTakenText
+            // selectImageDialog
             // 
-            this.timeTakenText.AutoSize = true;
-            this.timeTakenText.BackColor = System.Drawing.Color.Transparent;
-            this.timeTakenText.Font = new System.Drawing.Font("Cascadia Mono", 10F);
-            this.timeTakenText.ForeColor = System.Drawing.Color.White;
-            this.timeTakenText.Location = new System.Drawing.Point(630, 820);
-            this.timeTakenText.Name = "timeTakenText";
-            this.timeTakenText.Size = new System.Drawing.Size(240, 27);
-            this.timeTakenText.TabIndex = 3;
-            this.timeTakenText.Text = "Time Taken: 1000 ms";
+            this.selectImageDialog.FileName = "selectImageDialog";
             // 
             // Form1
             // 
@@ -307,7 +274,6 @@ namespace src.gui
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1600, 900);
-            this.Controls.Add(this.timeTakenText);
             this.Controls.Add(this.matchedText);
             this.Controls.Add(this.fingerBox);
             this.Controls.Add(this.uploadedBox);
@@ -331,6 +297,7 @@ namespace src.gui
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -345,14 +312,12 @@ namespace src.gui
         private System.Windows.Forms.Button BMButton;
         private System.Windows.Forms.PictureBox uploadedBox;
         private System.Windows.Forms.PictureBox fingerBox;
-        private System.Windows.Forms.Button nextButton;
-        private System.Windows.Forms.Button prevButton;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Label uploadedText;
         private System.Windows.Forms.Label matchedText;
-        private System.Windows.Forms.Label identityCounterText;
         private System.Windows.Forms.Label matchPercentageText;
         private System.Windows.Forms.Label timeTakenText;
+        private System.Windows.Forms.OpenFileDialog selectImageDialog;
     }
 }
 
