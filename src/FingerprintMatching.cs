@@ -26,7 +26,7 @@ namespace src
             string result = null;
 
             // Get the ASCII pattern of the target image
-            string[9] patterns = ImageProcessing.GetAsciiPattern(targetPath);
+            string[] patterns = ImageProcessing.GetAsciiPattern(targetPath);
 
             if (asciiMap.Count == 0)
             {
@@ -146,7 +146,7 @@ namespace src
         /// <param name="imageAscii">ASCII pattern of the image</param>
         /// <param name="patterns">Array of ASCII patterns</param>
         /// <returns>Number of matching patterns</returns>
-        private static int CountMatchingPatternsBM(string imageAscii, string[9] patterns)
+        private static int CountMatchingPatternsBM(string imageAscii, string[] patterns)
         {
             int matches = 0;
             for (int i = 0; i < patterns.Length; i++)
@@ -165,7 +165,7 @@ namespace src
         /// <param name="imageAscii">ASCII pattern of the image</param>
         /// <param name="patterns">Array of ASCII patterns</param>
         /// <returns>Number of matching patterns</returns>
-        private static int CountMatchingPatternsKMP(string imageAscii, string[9] patterns)
+        private static int CountMatchingPatternsKMP(string imageAscii, string[] patterns)
         {
             int matches = 0;
             for (int i = 0; i < patterns.Length; i++)
