@@ -185,6 +185,7 @@
     <Compile Include="database\AlayName.cs" />
     <Compile Include="database\Database.cs" />
     <Compile Include="FingerprintMatching.cs" />
+    <Compile Include="image\ImageDBController.cs" />
     <Compile Include="stringMatching\BM.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="image\ImageProcessing.cs">

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MySql.Data.MySqlClient;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace src.database
@@ -12,7 +10,11 @@ namespace src.database
     public static class Database
     {
         static MySqlConnection connection;
-        public static void connect()
+
+        /// <summary>
+        /// Connect to the database
+        /// </summary>
+        public static void Connect()
         {
             string connectionString = "Server=localhost;Port=3307;Database=fingerprint;Uid=user;Pwd=password;";
             connection = new MySqlConnection(connectionString);
@@ -23,6 +25,7 @@ namespace src.database
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
 
+                Console.WriteLine(AlayName.IsAlayNameMatch("Bagas Uzumaki", "Bagas Sambega Rosyada"));
                 Console.WriteLine("Tables:");
                 while (reader.Read())
                 {
@@ -39,7 +42,10 @@ namespace src.database
             }
         }
 
-        public static void disconnect()
+        /// <summary>
+        /// Disconnect from database
+        /// </summary>
+        public static void Disconnect()
         {
             try
             {
@@ -55,56 +61,86 @@ namespace src.database
             return connection.ConnectionString;
         }
 
-        public static MySqlDataReader select(String query)
+
+        /// <summary>
+        /// Run SQL command, return the MySqlDataReader for reading all the selected data from SQL.
+        /// </summary>
+        /// <param name="query">The query select string</param>
+        /// <returns>MySqlDataReader for reading all the selected data from SQL</returns>
+        public static MySqlDataReader Select(String query)
         {
             MySqlCommand mySqlCommand = new MySqlCommand(query, connection);
             return mySqlCommand.ExecuteReader();
         }
 
-        public static MySqlDataReader selectAllFingerprint()
+        /// <summary>
+        /// Select all data (nama, berkas_citra) from table sidik_jari
+        /// </summary>
+        /// <returns>MySqlDataReader that can be read, contain nama, berkas_citra</returns>
+        public static MySqlDataReader SelectAllFingerprint()
         {
-            return select("SELECT * FROM sidik_jari");
+            return Select("SELECT * FROM sidik_jari");
         }
 
-        public static MySqlDataReader selectAllBiodata()
+        /// <summary>
+        /// Select all data (all attr) from table biodata
+        /// </summary>
+        /// <returns>MySqlDataReader that can be read contains all attribute in table biodata</returns>
+        public static MySqlDataReader SelectAllBiodata()
         {
-            return select("SELECT * FROM biodata");
+            return Select("SELECT * FROM biodata");
         }
 
-        public static MySqlDataReader selectAllBiodata(String name)
+        /// <summary>
+        /// Select data (all attr) from table biodata where name given
+        /// </summary>
+        /// <param name="name">Name for find in the table biodata</param>
+        /// <returns>MySqlDataReader that can be read contains all attribute in table biodata where the name = {name}</returns>
+        public static MySqlDataReader SelectAllBiodata(String name)
         {
             name = $"\"{name}\"";
-            return select($"SELECT * FROM biodata WHERE nama={name}");
+            return Select($"SELECT * FROM biodata WHERE nama={name}");
         }
 
-        public static MySqlDataReader selectAllFingerprint(String filename)
+        /// <summary>
+        /// Return all path file to sidik_jari image from database
+        /// </summary>
+        /// <returns>List of all path file in database sidik_jari</returns>
+        public static List<String> SelectAllFingerprintImages()
         {
-            filename = $"\"{filename}\"";
-            return select($"SELECT * FROM sidik_jari WHERE berkas_citra={filename}");
+            MySqlDataReader temp = Select($"SELECT * FROM sidik_jari");
+            List<String> list = new List<String>();
+            while (temp.Read())
+            {
+                list.Add(temp["berkas_citra"].ToString());
+            }
+            temp.Close();
+            return list;
         }
+
 
         /// <summary>
         /// Find the corresponding name in table biodata (the alayname, unique) if given the file name in the table sidik_jari
         /// </summary>
         /// <param name="filename">File path name in the table sidik_jari</param>
         /// <returns>The alay name exist in table biodata</returns>
-        public static String findBiodata(String filename)
+        public static String FindBiodata(String filename)
         {
             List<String> namaBiodata = new List<String>();
             String temp = null;
             try
             {
-                MySqlDataReader query = selectAllBiodata();
+                MySqlDataReader query = SelectAllBiodata();
                 while (query.Read())
                 {
                     namaBiodata.Add(query["nama"].ToString());
                 }
                 query.Close();
-                query = selectAllFingerprint();
+                query = SelectAllFingerprint();
                 while (query.Read())
                 {
                     Console.WriteLine(query["berkas_citra"].ToString());
-                    if (query["berkas_citra"].ToString() == filename)
+                    if (query["berkas_citra"].ToString() == filename || query["berkas_citra"].ToString() == $"\"{filename}\"")
                     {
                         temp = query["nama"].ToString();
                         break;
@@ -131,11 +167,16 @@ namespace src.database
             return null;
         }
 
-        public static Dictionary<String, String> returnBiodata(String biodataName)
+        /// <summary>
+        /// Find corresponding biodata in table biodata if given the name
+        /// </summary>
+        /// <param name="biodataName">Nama di tabel biodata (nama alay)</param>
+        /// <returns>All biodata where nama = biodataName</returns>
+        public static Dictionary<String, String> ReturnBiodata(String biodataName)
         {
             try
             {
-                MySqlDataReader q = selectAllBiodata(biodataName);
+                MySqlDataReader q = SelectAllBiodata(biodataName);
                 Dictionary<String, String> data = new Dictionary<string, string>();
                 while (q.Read())
                 {
@@ -161,10 +202,11 @@ namespace src.database
 
         public static void Mtain()
         {
-            connect();
-            String name = (findBiodata("test/1.jpg"));
+            Connect();
+            Console.WriteLine(AlayName.IsAlayNameMatch("bgs smbg", "Bagas Sambega"));
+            String name = FindBiodata("test/1.jpg");
             Console.WriteLine (name);
-            Dictionary<String, String> data = returnBiodata(name);
+            Dictionary<String, String> data = ReturnBiodata(name);
             if (data  != null)
             {
                 try

@@ -12,7 +12,7 @@ class Program
     static void Main()
     {
         Console.WriteLine("\n==================== Program Started ====================\n");
-        Database.connect();
+        Database.Connect();
         Console.WriteLine("Connected to databases");
         Application.EnableVisualStyles();
         Application.Run(new Form1());
