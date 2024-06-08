@@ -8,6 +8,7 @@ namespace src
     {
         public static Dictionary<string, string> ReadImages(string folderPath)
         {
+
             Dictionary<string, string> asciiMap = new Dictionary<string, string>();
 
             // Check if the folder exists
@@ -39,10 +40,6 @@ namespace src
                 asciiMap.Add(imageName, asciiString);
                 limiter++;
 
-                if(limiter == 4000)
-                {
-                    break;
-                }
             }
 
             return asciiMap;
