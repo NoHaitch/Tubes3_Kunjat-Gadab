@@ -22,7 +22,7 @@ namespace src.stringMatching
             int sourceSize = source.Length;
             int patternSize = pattern.Length;
 
-            // Get last occurrence map
+            // Create last occurrence map
             Dictionary<char, int> lastOccurrence = LastOccurrenceBuilder(pattern);
 
             int mainIndex = 0;
@@ -30,23 +30,19 @@ namespace src.stringMatching
             while (mainIndex <= (sourceSize - patternSize))
             {
                 // Looking glass Technique
-                // Start the check from the end of the pattern
                 int patternIndex = patternSize - 1;
 
-                // Check from right to left if the pattern matches the text
                 while (patternIndex >= 0 && pattern[patternIndex] == source[mainIndex + patternIndex])
                     patternIndex--;
 
-                // If the pattern is found
                 if (patternIndex < 0)
                 {
-                    // Pattern found, return true
+                    // Pattern found
                     return true;
                 }
                 else
                 {
-                    // Character Jump Technique
-                    // Move the pattern according to the last occurrence map and rule
+                    // Character Jump
                     int charShift;
                     if (lastOccurrence.TryGetValue(source[mainIndex + patternIndex], out int shift))
                     {
@@ -60,7 +56,7 @@ namespace src.stringMatching
                 }
             }
 
-            // Pattern not found, return false
+            // Pattern not found
             return false;
         }
 

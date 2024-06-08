@@ -25,15 +25,15 @@ namespace src.image
         {
             string binary = ConvertImageToBinary(imgPath);
             string fullAscii = ConvertBinaryToAscii(binary);
-            string[] asciiPatterns = new string[9];
+            string[] asciiPatterns = new string[16];
 
-            // Divide the image into 9 sections and extract the center 8 characters from each section
-            for (int i = 0; i < 9; i++)
+            // Divide the image into 16 sections and extract the center 4 characters from each section
+            for (int i = 0; i < 16; i++)
             {
-                int sectionStartIndex = i * (fullAscii.Length / 9);
-                int sectionCenterIndex = sectionStartIndex + (fullAscii.Length / 18) - 4;
+                int sectionStartIndex = i * (fullAscii.Length / 16);
+                int sectionCenterIndex = sectionStartIndex + (fullAscii.Length / 32) - 2;
 
-                // Extract 8 characters from the center of the section
+                // Extract 4 characters from the center of the section
                 asciiPatterns[i] = fullAscii.Substring(sectionCenterIndex, 8);
             }
 

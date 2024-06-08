@@ -1,8 +1,5 @@
 ﻿using System;
 
-using src.image;
-using src.stringMatching;
-
 namespace src.stringMatching
 {
     internal class KMP
@@ -23,8 +20,8 @@ namespace src.stringMatching
             int sourceSize = source.Length;
             int patternSize = pattern.Length;
 
-            // Preprocess the pattern to get the lps array
-            int[] lps = ComputeLPSArray(pattern);
+            // Preprocess the pattern to get the border function array
+            int[] borderFunction = ComputeBorderFunction(pattern);
 
             int i = 0; // Index for source
             int j = 0; // Index for pattern
@@ -39,15 +36,13 @@ namespace src.stringMatching
 
                 if (j == patternSize)
                 {
-                    // Pattern found at index i - j
                     return true;
                 }
                 else if (i < sourceSize && pattern[j] != source[i])
                 {
-                    // Mismatch after j matches
                     if (j != 0)
                     {
-                        j = lps[j - 1];
+                        j = borderFunction[j - 1];
                     }
                     else
                     {
@@ -60,41 +55,43 @@ namespace src.stringMatching
         }
 
         /// <summary>
-        /// Computes the longest prefix which is also suffix (lps) array for the pattern
+        /// Computes the border function array for the pattern
         /// </summary>
         /// <param name="pattern">The pattern string</param>
-        /// <returns>The lps array</returns>
-        private static int[] ComputeLPSArray(string pattern)
+        /// <returns>The border function array</returns>
+        private static int[] ComputeBorderFunction(string pattern)
         {
-            int length = 0; // Length of the previous longest prefix suffix
+            // Length of the previous longest prefix suffix
+            int length = 0;
+
             int i = 1;
             int patternSize = pattern.Length;
-            int[] lps = new int[patternSize];
-            lps[0] = 0; // lps[0] is always 0
+            int[] borderFunction = new int[patternSize];
+            borderFunction[0] = 0;
 
             while (i < patternSize)
             {
                 if (pattern[i] == pattern[length])
                 {
                     length++;
-                    lps[i] = length;
+                    borderFunction[i] = length;
                     i++;
                 }
                 else
                 {
                     if (length != 0)
                     {
-                        length = lps[length - 1];
+                        length = borderFunction[length - 1];
                     }
                     else
                     {
-                        lps[i] = 0;
+                        borderFunction[i] = 0;
                         i++;
                     }
                 }
             }
 
-            return lps;
+            return borderFunction;
         }
     }
 }

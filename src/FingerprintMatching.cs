@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using src.stringMatching;
 using src.image;
+using System.Linq;
 
 namespace src
 {
     /// <summary>
-    /// Class to compare the ASCII pattern of a target image with a set of images\n
-    /// Uses KMP and BM algorithms to find the number of matching patterns\n
+    /// Class to compare the ASCII pattern of a target image with a set of images
+    /// Uses KMP and BM algorithms to find the number of matching patterns
     /// Uses Levenshtein Distance to find the closest image if no pattern matches
     /// </summary>
     internal class FingerprintMatching
     {
-
         /// <summary>
         /// Compare the ASCII pattern of a target image with a set of images using BM algorithm
         /// </summary>
         /// <param name="targetPath">Path to target image</param>
         /// <param name="asciiMap">Dictionary of image name and its ASCII pattern</param>
         /// <returns>Image name with the most matching patterns</returns>
-        public static string FingerprintAnalysisBM(string targetPath, Dictionary<string, string> asciiMap)
+        public static (string, float) FingerprintAnalysisBM(string targetPath, Dictionary<string, string> asciiMap)
         {
             // Initialize result
             string result = null;
+
+            // Initialize match percentage
+            float matchPercent = 100;
 
             // Get the ASCII pattern of the target image
             string[] patterns = ImageProcessing.GetAsciiPattern(targetPath);
@@ -39,7 +41,7 @@ namespace src
             // Store the list of images with the same number of matches as the maximum
             List<string> successfulMatches = new List<string>();
 
-            // for each image
+            // For each image
             foreach (var entry in asciiMap)
             {
                 // Count the number of matching patterns
@@ -61,20 +63,19 @@ namespace src
             // No pattern matches
             if (maxMatches == 0)
             {
-                // TODO: Implement tie-breaking mechanism
-                result = "TODO:TIE BREAKER";
+                result = FindClosestImage(targetPath, asciiMap, out matchPercent);
             }
-            else if(successfulMatches.Count == 1)
+            else if (successfulMatches.Count == 1)
             {
                 result = successfulMatches[0];
             }
             else
             {
-                // TODO: Implement tie-breaking mechanism
-                result = "TODO:TIE BREAKER";
+                // Use Levenshtein distance for tie-breaking
+                result = FindClosestImageByLevenshtein(successfulMatches, asciiMap, targetPath, out matchPercent);
             }
 
-            return result;
+            return (result, matchPercent);
         }
 
         /// <summary>
@@ -83,10 +84,13 @@ namespace src
         /// <param name="targetPath">Path to target image</param>
         /// <param name="asciiMap">Dictionary of image name and its ASCII pattern</param>
         /// <returns>Image name with the most matching patterns</returns>
-        public static string FingerprintAnalysisKMP(string targetPath, Dictionary<string, string> asciiMap)
+        public static (string, float) FingerprintAnalysisKMP(string targetPath, Dictionary<string, string> asciiMap)
         {
             // Initialize result
             string result = null;
+
+            // Initialize match percentage
+            float matchPercent = 100;
 
             // Get the ASCII pattern of the target image
             string[] patterns = ImageProcessing.GetAsciiPattern(targetPath);
@@ -102,7 +106,7 @@ namespace src
             // Store the list of images with the same number of matches as the maximum
             List<string> successfulMatches = new List<string>();
 
-            // for each image
+            // For each image
             foreach (var entry in asciiMap)
             {
                 // Count the number of matching patterns
@@ -124,8 +128,7 @@ namespace src
             // No pattern matches
             if (maxMatches == 0)
             {
-                //TODO: Implement tie-breaking mechanism
-                result = "TODO:TIE BREAKER";
+                result = FindClosestImage(targetPath, asciiMap, out matchPercent);
             }
             else if (successfulMatches.Count == 1)
             {
@@ -133,11 +136,11 @@ namespace src
             }
             else
             {
-                //TODO: Implement tie-breaking mechanism
-                result = "TODO:TIE BREAKER";
+                // Use Levenshtein distance for tie-breaking
+                result = FindClosestImageByLevenshtein(successfulMatches, asciiMap, targetPath, out matchPercent);
             }
 
-            return result;
+            return (result, matchPercent);
         }
 
         /// <summary>
@@ -179,7 +182,7 @@ namespace src
         }
 
         /// <summary>
-        /// Calculate the weight of a pattern based on its position\n
+        /// Calculate the weight of a pattern based on its position
         /// The closer the pattern is to the center, the higher the weight
         /// </summary>
         /// <param name="patternIndex">Index of the pattern</param>
@@ -201,30 +204,92 @@ namespace src
         }
 
         /// <summary>
-        /// TODO: Implement tie-breaking mechanism
-        /// Find the image with the closest ASCII pattern to the target image
+        /// Find the closest image based on Levenshtein distance
         /// </summary>
         /// <param name="targetPath">Path to target image</param>
-        /// <param name="successfulMatches">List of images with the same number of matches</param>
         /// <param name="asciiMap">Dictionary of image name and its ASCII pattern</param>
-        /// <returns>Image name with the closest ASCII pattern</returns>
-        private static string FindClosestImage(string targetPath, List<string> successfulMatches, Dictionary<string, string> asciiMap)
+        /// <param name="matchPercent">Output match percentage</param>
+        /// <returns>Closest image name</returns>
+        private static string FindClosestImage(string targetPath, Dictionary<string, string> asciiMap, out float matchPercent)
         {
             // Initialize the minimum distance and the closest image
-            int minDistance = int.MaxValue;
+            float maxMatchPercent = 0;
             string closestImage = null;
+            string[] targetPattern = ImageProcessing.GetAsciiPattern(targetPath);
 
-            foreach (var imageName in successfulMatches)
+            foreach (var entry in asciiMap)
             {
-                int distance = LD.LevenshteinDistance(asciiMap[imageName], ImageProcessing.GetAsciiPattern(targetPath)[0]);
-                if (distance < minDistance)
+                float currentMatchPercent = LD.FindBestMatch(entry.Value, targetPattern[0]);
+                if (currentMatchPercent > maxMatchPercent)
                 {
-                    minDistance = distance;
-                    closestImage = imageName;
+                    maxMatchPercent = currentMatchPercent;
+                    closestImage = entry.Key;
                 }
             }
 
+
+            matchPercent = maxMatchPercent;
             return closestImage;
+        }
+
+        /// <summary>
+        /// Find the closest image based on Levenshtein distance for a list of images
+        /// </summary>
+        /// <param name="successfulMatches">List of image names with the most matching patterns</param>
+        /// <param name="asciiMap">Dictionary of image name and its ASCII pattern</param>
+        /// <param name="targetPath">Path to target image</param>
+        /// <param name="matchPercent">Output match percentage</param>
+        /// <returns>Closest image name</returns>
+        private static string FindClosestImageByLevenshtein(List<string> successfulMatches, Dictionary<string, string> asciiMap, string targetPath, out float matchPercent)
+        {
+            // Initialize the maximum match percentage
+            float maxMatchPercent = 0;
+
+            // List to store images with the same Levenshtein match percentage
+            List<string> closestImages = new List<string>();
+
+            // Get the ASCII patterns of the target image
+            string[] targetPatterns = ImageProcessing.GetAsciiPattern(targetPath);
+
+            foreach (var imageName in successfulMatches)
+            {
+                string imageAscii = asciiMap[imageName];
+
+                // Initialize cumulative match percentage
+                float cumulativeMatchPercent = 0;
+
+                // Calculate the cumulative match percentage using all patterns
+                foreach (var targetPattern in targetPatterns)
+                {
+                    float currentMatchPercent = LD.FindBestMatch(imageAscii, targetPattern);
+                    cumulativeMatchPercent += currentMatchPercent;
+                }
+
+                // Calculate average match percentage
+                float averageMatchPercent = cumulativeMatchPercent / targetPatterns.Length;
+
+                // Check if the current match percentage is greater than the maximum
+                if (averageMatchPercent > maxMatchPercent)
+                {
+                    // Update the maximum match percentage
+                    maxMatchPercent = averageMatchPercent;
+
+                    // Clear the list and add the current image
+                    closestImages.Clear();
+                    closestImages.Add(imageName);
+                }
+                else if (averageMatchPercent == maxMatchPercent)
+                {
+                    // Add the image to the list with the same match percentage
+                    closestImages.Add(imageName);
+                }
+            }
+
+            // Print the count of images with the same Levenshtein match percentage
+            Console.WriteLine($"Images with the same Levenshtein match percentage: {closestImages.Count}");
+
+            matchPercent = maxMatchPercent;
+            return closestImages[0];
         }
     }
 }
