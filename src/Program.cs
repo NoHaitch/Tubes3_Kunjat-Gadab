@@ -31,6 +31,9 @@ class Program
         Console.WriteLine($"Time Taken to convert Source images: {stopwatch0.ElapsedMilliseconds} ms.");
         stopwatch0.Stop();
 
+        Application.EnableVisualStyles();
+        Application.Run(new Form1());
+
         /*
         Stopwatch stopwatch1 = Stopwatch.StartNew();
         string resultEasy1 = FingerprintMatching.FingerprintAnalysisBM(easyTargetPath, asciiMap);
