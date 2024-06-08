@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Drawing;
+using System.IO;
 using System.Text;
 
 namespace src.image
@@ -21,7 +23,8 @@ namespace src.image
         /// <returns>Array of 8-character ASCII pattern.</returns>
         public static string[] GetAsciiPattern(string imgPath)
         {
-            string fullAscii = ConvertImageToAscii(imgPath);
+            string binary = ConvertImageToBinary(imgPath);
+            string fullAscii = ConvertBinaryToAscii(binary);
             string[] asciiPatterns = new string[9];
 
             // Divide the image into 9 sections and extract the center 8 characters from each section
@@ -159,10 +162,12 @@ namespace src.image
         /// </summary>
         /// <param name="imgPath">path to image</param>
         /// <returns>ASCII string</returns>
-        public static string ConvertImageToAscii(string imgPath)
+        public static void ConvertImageToAscii(string imgPath, ConcurrentDictionary<string, string> map)
         {
             string binary = ConvertImageToBinary(imgPath);
-            return ConvertBinaryToAscii(binary);
+            string ascii = ConvertBinaryToAscii(binary);
+            string imageName = Path.GetFileName(imgPath);
+            map.TryAdd(imageName, ascii);
         }
     }
 }
