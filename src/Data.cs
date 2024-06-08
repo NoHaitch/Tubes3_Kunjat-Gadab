@@ -54,7 +54,7 @@ namespace src
 
 
         /* CONCURRENT */
-        public static async void ReadImagesConcurrent(string folderPath)
+        public static void ReadImagesConcurrent(string folderPath)
         {
             asciiMap = new ConcurrentDictionary<string, string>();
 
@@ -86,7 +86,7 @@ namespace src
             }
             try
             {
-                await Task.WhenAll(allTasks);
+                Task.WhenAll(allTasks).Wait();
             }
             catch (AggregateException ex)
             {

@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-
 using src;
 using src.database;
 using src.gui;
@@ -16,20 +15,23 @@ class Program
         Console.WriteLine("\n==================== Program Started ====================\n");
         Database.Connect();
         Console.WriteLine("Connected to databases");
-        // Application.EnableVisualStyles();
-        // Application.Run(new Form1());
 
-        string folderPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Real";
+        string folderPath = @"..\..\..\test\SOCOFing\Real";
+        /*
         string easyTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\431__M_Left_little_finger_CR.BMP";
         string mediumTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Medium\\431__M_Left_little_finger_CR.BMP";
         string hardTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Hard\\431__M_Left_little_finger_CR.BMP";
+        */
 
         Stopwatch stopwatch0 = Stopwatch.StartNew();
         Data.ReadImagesConcurrent(folderPath);
         ConcurrentDictionary<string, string> asciiMapConcurrent = Data.getAsciiMap();
         Dictionary<string, string> asciiMap = new Dictionary<string, string>(asciiMapConcurrent);
+        Console.WriteLine($"Number of ASCII converted images: {asciiMap.Count}");
+        Console.WriteLine($"Time Taken to convert Source images: {stopwatch0.ElapsedMilliseconds} ms.");
         stopwatch0.Stop();
 
+        /*
         Stopwatch stopwatch1 = Stopwatch.StartNew();
         string resultEasy1 = FingerprintMatching.FingerprintAnalysisBM(easyTargetPath, asciiMap);
         stopwatch1.Stop();
@@ -46,7 +48,6 @@ class Program
 
         Console.WriteLine($"Pattern Image: {easyTargetPath}");
         Console.WriteLine($"Source: {folderPath}");
-        Console.WriteLine($"Time Taken to convert Source images: {stopwatch0.ElapsedMilliseconds} ms.");
         Console.WriteLine("Resulting Match: \n");
 
         Console.WriteLine($"\nFingerprintAnalysisBM took {stopwatch1.ElapsedMilliseconds} ms.");
@@ -62,5 +63,6 @@ class Program
 
         Console.WriteLine($"Result Hard BM: {resultHard1}\n");
         Console.WriteLine($"Result Hard KMP: {resultHard2}\n");
+        */
     }
 }
