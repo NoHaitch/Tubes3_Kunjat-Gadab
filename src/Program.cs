@@ -8,6 +8,7 @@ using src.gui;
 
 class Program
 {
+    [STAThread]
     static void Main()
     {
         Console.WriteLine("\n==================== Program Started ====================\n");
