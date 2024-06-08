@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -50,6 +51,21 @@ namespace src.gui
             this.exitButton.ForeColor = System.Drawing.Color.White;
         }
 
+        private void minimize_clicked(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void minimize_enter(object sender, EventArgs e)
+        {
+            this.minimizeButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(16)))), ((int)(((byte)(28)))));
+        }
+
+        private void minimize_leave(object sender, EventArgs e)
+        {
+            this.minimizeButton.ForeColor = System.Drawing.Color.White;
+        }
+
         /*
         private void prevButton_clicked(object sender, EventArgs e)
         {
@@ -87,7 +103,27 @@ namespace src.gui
 
         private void SearchButton_click(object sender, EventArgs e)
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            try
+            {
+                if (isKMP)
+                {
 
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            { 
+                stopwatch.Stop();
+            }
+            
         }
 
         private void toggleAlgorithmClick(object sender, EventArgs e)

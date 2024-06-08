@@ -36,6 +36,7 @@ namespace src.gui
             this.timeTakenText = new System.Windows.Forms.Label();
             this.matchPercentageText = new System.Windows.Forms.Label();
             this.exitButton = new System.Windows.Forms.Button();
+            this.minimizeButton = new System.Windows.Forms.Button();
             this.identityLabel = new System.Windows.Forms.Label();
             this.BMButton = new System.Windows.Forms.Button();
             this.KMPButton = new System.Windows.Forms.Button();
@@ -60,6 +61,7 @@ namespace src.gui
             this.panel1.Controls.Add(this.timeTakenText);
             this.panel1.Controls.Add(this.matchPercentageText);
             this.panel1.Controls.Add(this.exitButton);
+            this.panel1.Controls.Add(this.minimizeButton);
             this.panel1.Controls.Add(this.identityLabel);
             this.panel1.ForeColor = System.Drawing.Color.White;
             this.panel1.Location = new System.Drawing.Point(1000, 0);
@@ -110,6 +112,24 @@ namespace src.gui
             this.exitButton.Click += new System.EventHandler(this.exit_clicked);
             this.exitButton.MouseEnter += new System.EventHandler(this.exit_enter);
             this.exitButton.MouseLeave += new System.EventHandler(this.exit_leave);
+            // 
+            // minimizeButton
+            // 
+            this.minimizeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(8)))), ((int)(((byte)(14)))));
+            this.minimizeButton.FlatAppearance.BorderSize = 0;
+            this.minimizeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(8)))), ((int)(((byte)(14)))));
+            this.minimizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.minimizeButton.Font = new System.Drawing.Font("Cascadia Mono", 12F, System.Drawing.FontStyle.Bold);
+            this.minimizeButton.ForeColor = System.Drawing.Color.White;
+            this.minimizeButton.Location = new System.Drawing.Point(507, 3);
+            this.minimizeButton.Name = "minimizeButton";
+            this.minimizeButton.Size = new System.Drawing.Size(45, 45);
+            this.minimizeButton.TabIndex = 6;
+            this.minimizeButton.Text = "-";
+            this.minimizeButton.UseVisualStyleBackColor = false;
+            this.minimizeButton.Click += new System.EventHandler(this.minimize_clicked);
+            this.minimizeButton.MouseEnter += new System.EventHandler(this.minimize_enter);
+            this.minimizeButton.MouseLeave += new System.EventHandler(this.minimize_leave);
             // 
             // identityLabel
             // 
@@ -313,6 +333,7 @@ namespace src.gui
         private System.Windows.Forms.PictureBox uploadedBox;
         private System.Windows.Forms.PictureBox fingerBox;
         private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.Button minimizeButton;
         private System.Windows.Forms.Label uploadedText;
         private System.Windows.Forms.Label matchedText;
         private System.Windows.Forms.Label matchPercentageText;
