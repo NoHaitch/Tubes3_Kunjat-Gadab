@@ -109,6 +109,8 @@ Project dependencies
 
 - Docker  
   https://docs.docker.com/engine/install/
+
+- Microsoft Visual Studio
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -133,9 +135,19 @@ Project dependencies
 <!-- INSTURCTION -->
 ## Instruction
 
-_How to use the project_
+1. Clone the repository
+2. Run Docker or Docker Desktop
+3. Open terminal and change directory to the `src` folder
+```sh
+cd src
+```
+4. Run docker-compose with this command (make sure port 3307 is open):
+```sh
+docker-compose up
+```
+5. Start the program through Visual Studio start's button in the top bar
 
-
+In case want to insert any data before the database is connected, go through `init.sql` in the `src` folder and insert the SQL command. Then run `docker compose down` and `docker-compose up` again
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FEATURES -->
