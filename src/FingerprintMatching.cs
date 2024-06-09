@@ -69,6 +69,7 @@ namespace src
             else if (successfulMatches.Count == 1)
             {
                 result = successfulMatches[0];
+                Console.WriteLine($"Succesfull Pattern Match: {maxMatches}");
             }
             else
             {
@@ -140,6 +141,7 @@ namespace src
             else if (successfulMatches.Count == 1)
             {
                 result = successfulMatches[0];
+                Console.WriteLine($"Succesfull Pattern Match: {maxMatches}");
             }
             else
             {
@@ -205,14 +207,26 @@ namespace src
             switch (patternIndex)
             {
                 case 1: // fallthrough
+                case 4: // fallthrough
+                case 13: // fallthrough
+                case 16:
+                    return 1; // Smallest weight for outermost patterns
+                case 2: // fallthrough
                 case 3: // fallthrough
+                case 5: // fallthrough
+                case 8: // fallthrough
+                case 9: // fallthrough
+                case 12: // fallthrough
+                case 14: // fallthrough
+                case 15:
+                    return 2; // Intermediate weight for next outer layer
+                case 6: // fallthrough
                 case 7: // fallthrough
-                case 9:
-                    return 1; // Smallest weight for outer patterns
-                case 5:
-                    return 3; // Largest weight for central pattern
+                case 10: // fallthrough
+                case 11:
+                    return 3; // Higher weight for next inner layer
                 default:
-                    return 2; // Intermediate weight for other patterns
+                    return 4; // Highest weight for the center pattern
             }
         }
 
