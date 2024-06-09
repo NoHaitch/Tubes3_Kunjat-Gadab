@@ -87,9 +87,9 @@ namespace src
                 throw new Exception("No Bitmap Image Found");
             }
 
-            Task[] allTasks = new Task[fileCount];
+            Task[] allTasks = new Task[fileCount-1];
 
-            for (int i=0; i<fileCount; i++) 
+            for (int i=0; i<fileCount-1; i++) 
             {
                 int num = i;
                 allTasks[i] = Task.Run(() => ImageProcessing.ConvertImageToAscii(bmpFiles[num], asciiMap));

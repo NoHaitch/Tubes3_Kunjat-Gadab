@@ -16,6 +16,7 @@ class Program
         Console.WriteLine("\n==================== Program Started ====================\n");
         Database.Connect();
         Console.WriteLine("Connected to databases");
+        //Database.ImportSQL(@"..\..\database\insert.sql");
         string folderPath = @"..\..\..\test";
         /*
         string easyTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\431__M_Left_little_finger_CR.BMP";

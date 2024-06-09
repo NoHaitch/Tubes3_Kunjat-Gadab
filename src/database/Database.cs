@@ -12,6 +12,7 @@ namespace src.database
     public static class Database
     {
         static MySqlConnection connection;
+        private static string key = "SKIBIDI";
 
         /// <summary>
         /// Connect to the database
@@ -210,7 +211,7 @@ namespace src.database
             return null;
         }
 
-        public static void ImportSQl(String filename)
+        public static void ImportSQL(String filename)
         {
             String sql = File.ReadAllText(filename);
             string[] sqlStatements = sql.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -221,7 +222,10 @@ namespace src.database
                 if (trimmed.StartsWith("INSERT INTO biodata", StringComparison.OrdinalIgnoreCase))
                 {
                     String test = ModifyInsert(trimmed);
-                    Console.WriteLine(trimmed);
+                    using (MySqlCommand command = new MySqlCommand(test, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
                 }
                 else
                 {
@@ -240,10 +244,6 @@ namespace src.database
             Console.WriteLine("SQL file imported successfully.");
         }
 
-        /*public static void Seeding()
-        {
-            MySqlDataReader query = Select("SELECT nama FROM ")
-        } */
         public static String ModifyInsert(String statement)
         {
             String pattern = @"VALUES\s*\(([^)]+)\)";
@@ -253,15 +253,36 @@ namespace src.database
                 string entireMatch = match.Groups[0].Value; // Extracts the entire match including "VALUES"
                 string values = match.Groups[1].Value;
                 string[] item = values.Split(new[] { "," }, StringSplitOptions.None);
+                if (item.Length != 0)
+                { // Only encrypt NIK, name, city, date, alamat, agama, status, pekerjaan, kwn
+                    String NIK = item[0];
+                    String name = item[1];
+                    String city = item[2];
+                    string date = item[3];
+                    string jk = item[4];
+                    string blood = item[5];
+                    string jln = item[6];
+                    string agama = item[7];
+                    string status = item[8];
+                    string kerja = item[9];
+                    string kwn = item[10];
 
-                foreach (string value in item)
-                {
-                    Console.WriteLine(value);
+                    // Encrypt
+                    NIK = AlayName.Encrypt(NIK, AlayName.GenerateKey(NIK, key));
+                    name= AlayName.Encrypt(name, AlayName.GenerateKey(name, key));
+                    city= AlayName.Encrypt(city, AlayName.GenerateKey(city, key));
+                    jln= AlayName.Encrypt(jln, AlayName.GenerateKey(jln, key));
+                    agama= AlayName.Encrypt(agama, AlayName.GenerateKey(agama, key));
+                    kerja= AlayName.Encrypt(kerja, AlayName.GenerateKey(kerja, key));
+                    kwn= AlayName.Encrypt(kwn, AlayName.GenerateKey(kwn, key));
+                    string newQ = $"INSERT INTO biodata VALUE ({NIK}, {name}, {city}, {date}, {jk}, {blood}, {jln}, {agama}, {status}, {kerja}, {kwn});";
+                    Console.WriteLine(newQ);
+
+                    return newQ;
                 }
 
-                string name = item[0];
             }
-            return pattern;
+            return statement;
         }
     }
 
