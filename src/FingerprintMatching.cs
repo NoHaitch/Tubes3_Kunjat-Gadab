@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using src.stringMatching;
 using src.image;
 using System.Linq;
+using MySqlX.XDevAPI.Common;
 
 namespace src
 {
@@ -75,6 +76,12 @@ namespace src
                 result = FindClosestImageByLevenshtein(successfulMatches, asciiMap, targetPath, out matchPercent);
             }
 
+            // Check the match percentage threshold
+            if (matchPercent < 70)
+            {
+                result = "";
+            }
+
             return (result, matchPercent);
         }
 
@@ -138,6 +145,12 @@ namespace src
             {
                 // Use Levenshtein distance for tie-breaking
                 result = FindClosestImageByLevenshtein(successfulMatches, asciiMap, targetPath, out matchPercent);
+            }
+
+            // Check the match percentage threshold
+            if (matchPercent < 70)
+            {
+                result = "";
             }
 
             return (result, matchPercent);
@@ -226,8 +239,7 @@ namespace src
                     closestImage = entry.Key;
                 }
             }
-
-
+            
             matchPercent = maxMatchPercent;
             return closestImage;
         }
