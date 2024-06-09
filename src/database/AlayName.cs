@@ -89,8 +89,54 @@ class AlayName
     /// <returns>Pattern generated from the valid name (create all lowercase and delete all vocals)</returns>
     public static string CreatePatternFromValidName(string validName)
     {
-        string pattern = Regex.Replace(validName, "[aeiouAEIOU]", "[aeiouAEIOU]?");
+        string pattern = Regex.Replace(validName, "[aeiouAEIOU]", "[[aeiouAEIOU]?]*");
         return "^" + pattern.Replace(" ", "\\s*") + "$";
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="str">String to be converted into key</param>
+    /// <param name="key">The main key pattern</param>
+    /// <returns></returns>
+    public static String GenerateKey(String str, String key)
+    {
+        int len = str.Length;
+        String cipher = "";
+        for (int i = 0; i < len; i++)
+        {
+                cipher += key[i % 3];
+         
+        }
+        return cipher;
+    }
+
+    public static String Encrypt(String input, String key)
+    {
+        int len = input.Length;
+        String hashed = "";
+        Console.WriteLine(len);
+        Console.WriteLine(key.Length);
+        for (int i = 0; i < len; i++)
+        {
+            int x = (input[i] + key[i]);
+            //x += 'A';
+            hashed += (char)x;
+        }
+        return hashed;
+    }
+
+    public static String Decrypt(String hashed, String key)
+    {
+        int len = hashed.Length;
+        String decoded = "";
+        for (int i = 0; i < len; i++)
+        {
+            int x = (hashed[i] - key[i] );
+            //x += 'A';
+            decoded += (char)x;
+        }
+        return decoded;
     }
 
     static void TMain(string[] args)

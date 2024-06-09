@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
-
+using src.database;
 using src.image;
 
 namespace src
@@ -69,9 +69,18 @@ namespace src
             }
 
             // Get all BMP files in the folder
-            string[] bmpFiles = Directory.GetFiles(folderPath, "*.bmp");
-            int fileCount = bmpFiles.Length;
-
+            /*string[] bmpFiles = Directory.GetFiles(folderPath, "*.bmp");
+            foreach (String b in bmpFiles) {
+                Console.WriteLine(b);
+            }*/
+            List<String> bmpFiles = Database.SelectAllFingerprintImages();
+            for (int i = 0; i < bmpFiles.Count; i++)
+            {
+                Console.WriteLine(bmpFiles[i]);
+                bmpFiles[i] = Path.Combine(@"..\..\..\", bmpFiles[i].Trim());
+                if (File.Exists(bmpFiles[i])) Console.WriteLine("masuk");
+            }
+            int fileCount = bmpFiles.Count;
             if (fileCount == 0)
             {
                 throw new Exception("No Bitmap Image Found");

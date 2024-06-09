@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using src;
 using src.database;
 using src.gui;
+using src.image;
 
 class Program
 {
@@ -15,8 +16,7 @@ class Program
         Console.WriteLine("\n==================== Program Started ====================\n");
         Database.Connect();
         Console.WriteLine("Connected to databases");
-
-        string folderPath = @"..\..\..\test\SOCOFing\Real";
+        string folderPath = @"..\..\..\test";
         /*
         string easyTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\431__M_Left_little_finger_CR.BMP";
         string mediumTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Medium\\431__M_Left_little_finger_CR.BMP";
