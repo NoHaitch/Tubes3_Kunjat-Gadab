@@ -12,6 +12,7 @@ class AlayName
         {'5', 'S'},
         {'6', 'G'},
         {'7', 'T'},
+        {'8', 'B'},
         {'9', 'G'},
         {'0', 'O'}
     };
@@ -139,27 +140,4 @@ class AlayName
         return decoded;
     }
 
-    static void TMain(string[] args)
-    {
-        List<string> Biodata = new List<string>
-        {
-            "Bintang Dwi Hartono",
-            "Bentang Dwi Hartono",
-            "Alexander De'Honor",
-            "Bintang Trisna Adzhifah",
-            "Juliantrini Maskulin",
-            "Francisco Bernoulli",
-            "Alina",
-        };
-
-        string alayName = "Bntng Dw1 h4rt0no";
-
-        foreach (string validName in Biodata)
-        {
-            if (IsAlayNameMatch(alayName, validName))
-            {
-                Console.WriteLine($"{alayName} bersesuaian dengan {validName}");
-            }
-        }
-    }
 }

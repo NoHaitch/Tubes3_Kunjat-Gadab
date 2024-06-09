@@ -64,11 +64,6 @@ namespace src.database
             }
         }
 
-        public static string GetConnectionString()
-        {
-            return connection.ConnectionString;
-        }
-
 
         /// <summary>
         /// Run SQL command, return the MySqlDataReader for reading all the selected data from SQL.
