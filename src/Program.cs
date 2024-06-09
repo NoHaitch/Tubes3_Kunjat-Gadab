@@ -32,7 +32,7 @@ class Program
         stopwatch0.Stop();
 
         Application.EnableVisualStyles();
-        Application.Run(new Form1());
+        Application.Run(new Form1(asciiMap));
 
         /*
         Stopwatch stopwatch1 = Stopwatch.StartNew();
