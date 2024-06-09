@@ -102,7 +102,7 @@ namespace src.gui
                     uploadedBox.Image = null;
                     setSearchStatus(false);
                 }
-
+                this.fingerBox.Image = null;
                 this.timeTakenText.Hide();
                 this.matchPercentageText.Hide();
             }
@@ -110,6 +110,7 @@ namespace src.gui
 
         private void SearchButton_click(object sender, EventArgs e)
         {
+            this.fingerBox.Image = null;
             Stopwatch stopwatch = Stopwatch.StartNew();
             bool noException = false;
             try
@@ -117,14 +118,12 @@ namespace src.gui
                 if (isKMP)
                 {
                    (this.matchingName, this.percentage) = FingerprintMatching.FingerprintAnalysisKMP(this.absolutePath, this.asciiMap);
-                    this.matchPercentageText.Text = $"Match: {this.percentage.ToString()}%";
                     Console.WriteLine(this.matchingName);
                     noException = true;
                 }
                 else
                 {
                     (this.matchingName, this.percentage) = FingerprintMatching.FingerprintAnalysisBM(this.absolutePath, this.asciiMap);
-                    this.matchPercentageText.Text = $"Match: {this.percentage.ToString()}%";
                     Console.WriteLine(this.matchingName);
                     noException = true;
                 }
@@ -140,8 +139,17 @@ namespace src.gui
             if (noException)
             {
                 this.timeTakenText.Text = $"Time Taken: {stopwatch.ElapsedMilliseconds.ToString()} ms";
+                if (this.matchingName == null)
+                {
+                    this.fingerBox.Image = this.fingerBox.InitialImage;
+                }
+                else
+                {
+                    this.matchPercentageText.Text = $"Match: {Math.Round(this.percentage).ToString()}%";
+                    this.matchingName = "test/" + this.matchingName;
+                    this.matchPercentageText.Show();
+                }
                 this.timeTakenText.Show();
-                this.matchPercentageText.Show();
             }
         }
 

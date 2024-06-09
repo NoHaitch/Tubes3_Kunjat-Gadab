@@ -43,16 +43,16 @@ namespace src.gui
             this.SelectFileButton = new System.Windows.Forms.Button();
             this.SearchButton = new System.Windows.Forms.Button();
             this.Title = new System.Windows.Forms.Label();
-            this.fingerBox = new System.Windows.Forms.PictureBox();
             this.uploadedBox = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.uploadedText = new System.Windows.Forms.Label();
             this.matchedText = new System.Windows.Forms.Label();
             this.selectImageDialog = new System.Windows.Forms.OpenFileDialog();
+            this.fingerBox = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fingerBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uploadedBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fingerBox)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -79,7 +79,7 @@ namespace src.gui
             this.timeTakenText.ForeColor = System.Drawing.Color.White;
             this.timeTakenText.Location = new System.Drawing.Point(44, 72);
             this.timeTakenText.Name = "timeTakenText";
-            this.timeTakenText.Size = new System.Drawing.Size(280, 32);
+            this.timeTakenText.Size = new System.Drawing.Size(224, 32);
             this.timeTakenText.TabIndex = 3;
             this.timeTakenText.Text = "Time Taken:  ms";
             this.timeTakenText.Hide();
@@ -92,7 +92,7 @@ namespace src.gui
             this.matchPercentageText.ForeColor = System.Drawing.Color.White;
             this.matchPercentageText.Location = new System.Drawing.Point(396, 72);
             this.matchPercentageText.Name = "matchPercentageText";
-            this.matchPercentageText.Size = new System.Drawing.Size(154, 32);
+            this.matchPercentageText.Size = new System.Drawing.Size(126, 32);
             this.matchPercentageText.TabIndex = 7;
             this.matchPercentageText.Text = "Match: %";
             this.matchPercentageText.Hide();
@@ -229,15 +229,6 @@ namespace src.gui
             this.Title.TabIndex = 3;
             this.Title.Text = "FINGERPRINT IDENTIFIER";
             // 
-            // fingerBox
-            // 
-            this.fingerBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.fingerBox.Location = new System.Drawing.Point(570, 180);
-            this.fingerBox.Name = "fingerBox";
-            this.fingerBox.Size = new System.Drawing.Size(300, 400);
-            this.fingerBox.TabIndex = 5;
-            this.fingerBox.TabStop = false;
-            // 
             // uploadedBox
             // 
             this.uploadedBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -246,6 +237,7 @@ namespace src.gui
             this.uploadedBox.Size = new System.Drawing.Size(300, 400);
             this.uploadedBox.TabIndex = 4;
             this.uploadedBox.TabStop = false;
+            this.uploadedBox.Image = null;
             // 
             // pictureBox1
             // 
@@ -289,6 +281,19 @@ namespace src.gui
             // 
             this.selectImageDialog.FileName = "selectImageDialog";
             // 
+            // fingerBox
+            // 
+            this.fingerBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fingerBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fingerBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("fingerBox.InitialImage")));
+            this.fingerBox.Location = new System.Drawing.Point(570, 180);
+            this.fingerBox.Name = "fingerBox";
+            this.fingerBox.Size = new System.Drawing.Size(300, 400);
+            this.fingerBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.fingerBox.TabIndex = 5;
+            this.fingerBox.TabStop = false;
+            this.fingerBox.Image = null;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -314,9 +319,9 @@ namespace src.gui
             this.Load += new System.EventHandler(this.Form_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fingerBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uploadedBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fingerBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -333,7 +338,6 @@ namespace src.gui
         private System.Windows.Forms.Button KMPButton;
         private System.Windows.Forms.Button BMButton;
         private System.Windows.Forms.PictureBox uploadedBox;
-        private System.Windows.Forms.PictureBox fingerBox;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button minimizeButton;
         private System.Windows.Forms.Label uploadedText;
@@ -341,6 +345,7 @@ namespace src.gui
         private System.Windows.Forms.Label matchPercentageText;
         private System.Windows.Forms.Label timeTakenText;
         private System.Windows.Forms.OpenFileDialog selectImageDialog;
+        private System.Windows.Forms.PictureBox fingerBox;
     }
 }
 
