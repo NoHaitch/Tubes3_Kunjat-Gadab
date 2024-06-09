@@ -17,11 +17,15 @@ namespace src.gui
         
         private bool isKMP;
         private string absolutePath;
-        
-        public Form1()
+        private Dictionary<string, string> asciiMap;
+        private string matchingName;
+        private float percentage;
+
+        public Form1(Dictionary<string, string> _asciiMap)
         {
-            absolutePath = null;
-            isKMP = true;
+            this.absolutePath = null;
+            this.isKMP = true;
+            this.asciiMap = _asciiMap;
             InitializeComponent();
         }
 
@@ -98,21 +102,31 @@ namespace src.gui
                     uploadedBox.Image = null;
                     setSearchStatus(false);
                 }
+
+                this.timeTakenText.Hide();
+                this.matchPercentageText.Hide();
             }
         }
 
         private void SearchButton_click(object sender, EventArgs e)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
+            bool noException = false;
             try
-            {
+            { 
                 if (isKMP)
                 {
-
+                   (this.matchingName, this.percentage) = FingerprintMatching.FingerprintAnalysisKMP(this.absolutePath, this.asciiMap);
+                    this.matchPercentageText.Text = $"Match: {this.percentage.ToString()}%";
+                    Console.WriteLine(this.matchingName);
+                    noException = true;
                 }
                 else
                 {
-
+                    (this.matchingName, this.percentage) = FingerprintMatching.FingerprintAnalysisBM(this.absolutePath, this.asciiMap);
+                    this.matchPercentageText.Text = $"Match: {this.percentage.ToString()}%";
+                    Console.WriteLine(this.matchingName);
+                    noException = true;
                 }
             }
             catch (Exception ex)
@@ -123,7 +137,12 @@ namespace src.gui
             { 
                 stopwatch.Stop();
             }
-            
+            if (noException)
+            {
+                this.timeTakenText.Text = $"Time Taken: {stopwatch.ElapsedMilliseconds.ToString()} ms";
+                this.timeTakenText.Show();
+                this.matchPercentageText.Show();
+            }
         }
 
         private void toggleAlgorithmClick(object sender, EventArgs e)

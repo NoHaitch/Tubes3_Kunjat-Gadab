@@ -81,7 +81,8 @@ namespace src.gui
             this.timeTakenText.Name = "timeTakenText";
             this.timeTakenText.Size = new System.Drawing.Size(280, 32);
             this.timeTakenText.TabIndex = 3;
-            this.timeTakenText.Text = "Time Taken: 1000 ms";
+            this.timeTakenText.Text = "Time Taken:  ms";
+            this.timeTakenText.Hide();
             // 
             // matchPercentageText
             // 
@@ -93,7 +94,8 @@ namespace src.gui
             this.matchPercentageText.Name = "matchPercentageText";
             this.matchPercentageText.Size = new System.Drawing.Size(154, 32);
             this.matchPercentageText.TabIndex = 7;
-            this.matchPercentageText.Text = "Match: 98%";
+            this.matchPercentageText.Text = "Match: %";
+            this.matchPercentageText.Hide();
             // 
             // exitButton
             // 
