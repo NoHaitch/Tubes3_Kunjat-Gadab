@@ -143,7 +143,7 @@ namespace src.gui
             this.identityLabel.Name = "identityLabel";
             this.identityLabel.Size = new System.Drawing.Size(500, 700);
             this.identityLabel.TabIndex = 3;
-            this.identityLabel.Text = resources.GetString("identityLabel.Text");
+            this.identityLabel.Text = "";
             // 
             // BMButton
             // 
