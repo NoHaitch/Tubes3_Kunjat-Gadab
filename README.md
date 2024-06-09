@@ -65,21 +65,11 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
         <li><a href="#instruction">Instruction</a></li>
-        <li>
-        <details>
-          <summary><a href="#features">Features</a></summary>
-          <ol>
-            <li><a href="#1-feature-x">Features - 1</a></li>
-            <li><a href="#2-feature-y">Features - 2</a></li>
-            <li><a href="#3-feature-z">Features - 3</a></li>
-          <ol>
-        </details>
-        </li>
+        <li><a href="#features">Features</a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#special-thanks">Special Thanks</a></li>
   </ol>
 </details>
 
@@ -113,44 +103,37 @@ You can explore more on this link ...
 ### Prerequisites
 
 Project dependencies  
-example :  
 
-* Make 
-  ```sh
-  # in Linux
-  sudo apt install make
-  ```
-* Python
-  ```sh
-  # in Linux
-  sudo apt install python3
-  ```
+- C# .Net Core  
+  https://dotnet.microsoft.com/en-us/download
 
+- Docker  
+  https://docs.docker.com/engine/install/
+  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Installation
 
-_How to install and use your project_
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/NoHaitch/Repository_Template
+   git clone https://github.com/NoHaitch/Tubes3_Kunjat-Gadab
    ```
-2. Change the content
-
+2. Change directory
+    ```sh
+    cd Tubes3_Kunjat-Gadab
+    ```
+3. Run the C# program
+    ```sh
+    # temporarily can only be run in Visual Studio
+    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- INSTURCTION -->
 ## Instruction
-Instruction to run/build/etc the program  
-example: 
 
-`make build` : To build from source to binary into bin/main  
-`make all` : Run binary directly after building   
-`make clean` : Remove all build generated files  
-`make ADT.test` : Running test for ADT test file, for example ( `make time.test` )  
-`make test.all` : Running all test  
+_How to use the project_
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -158,24 +141,15 @@ example:
 <!-- FEATURES -->
 ## Features
 
-### 1. Feature X
+### 1. Fingerprint Matching using KMP Algorithm
 
-this feature does X
+### 2. Fingerprint Matching using BM Algorithm
 
-### 2. Feature Y
+### 3. Fingerprint Matching using Levenshtein Distance Algorithm
 
-this feature does Y  
-sub-features:
-   1. function 1
-   2. function 2
-   3. function 3
+### 4. Encryption and Decryption using Vigenere Cipher
 
-### 3. Feature Z
-
-this feature does Z
-- `A`: print A.  
-- `B`: print B.  
-- `C`: print C.
+### 5. GUI Interface using Windows Form Application
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -200,10 +174,6 @@ The code in this project is licensed under MIT license.
 <!-- Add other targeted langguage: Code dalam projek ini berada di bawah lisensi MIT. -->
 
 
-<!-- SPECIAL THANKS AND/OR CREDITS -->
-## Special Thanks
-- [Repository_Template](https://github.com/NoHaitch/Repository_Template/)
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <br>
@@ -211,6 +181,6 @@ The code in this project is licensed under MIT license.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[issues-url]: https://github.com/NoHaitch/Repository_Template/issues
+[issues-url]: https://github.com/NoHaitch/Tubes3_Kunjat-Gadab/issues
 [license-shield]: https://img.shields.io/badge/License-MIT-yellow
-[license-url]: https://github.com/NoHaitch/Repository_Template/blob/main/LICENSE
+[license-url]: https://github.com/NoHaitch/Tubes3_Kunjat-Gadab/blob/main/LICENSE
