@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace src.database
 {
@@ -24,8 +26,12 @@ namespace src.database
                 string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'fingerprint'";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
-
-                Console.WriteLine(AlayName.IsAlayNameMatch("Bagas Uzumaki", "Bagas Sambega Rosyada"));
+                Console.WriteLine("Check nama:");
+                Console.WriteLine(AlayName.IsAlayNameMatch("B4645 smbg", "Bagas Sambega"));
+                String origin = "Bagas Sambega 123";
+                String hashed = AlayName.Encrypt(origin, AlayName.GenerateKey(origin, "SKIBIDI"));
+                Console.WriteLine($"{origin} = {hashed}");
+                Console.WriteLine(AlayName.Decrypt(hashed, AlayName.GenerateKey(origin, "SKIBIDI")));
                 Console.WriteLine("Tables:");
                 while (reader.Read())
                 {
@@ -50,7 +56,8 @@ namespace src.database
             try
             {
                 connection.Close();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
@@ -123,8 +130,8 @@ namespace src.database
         /// Find the corresponding name in table biodata (the alayname, unique) if given the file name in the table sidik_jari
         /// </summary>
         /// <param name="filename">File path name in the table sidik_jari</param>
-        /// <returns>The alay name exist in table biodata</returns>
-        public static String FindBiodata(String filename)
+        /// <returns>The alay name exist in table biodata and the original name in table sidik_jari</returns>
+        public static (String, String) FindBiodata(String filename)
         {
             List<String> namaBiodata = new List<String>();
             String temp = null;
@@ -146,7 +153,7 @@ namespace src.database
                         break;
                     }
                 }
-                query.Close ();
+                query.Close();
             }
             catch (Exception ex)
             {
@@ -154,17 +161,17 @@ namespace src.database
             }
             if (temp == null)
             {
-                return null;
+                return (null, temp);
             }
             for (var i = 0; i < namaBiodata.Count(); i++)
             {
                 if (AlayName.IsAlayNameMatch(namaBiodata[i], temp))
                 {
                     Console.WriteLine($"{temp} = {namaBiodata[i]}");
-                    return namaBiodata[i];
+                    return (namaBiodata[i], temp);
                 }
             }
-            return null;
+            return (null, temp);
         }
 
         /// <summary>
@@ -193,34 +200,70 @@ namespace src.database
                     data.Add("pekerjaan", q["pekerjaan"].ToString());
                     data.Add("kewarganegaraan", q["kewarganegaraan"].ToString());
                 }
+                q.Close();
                 return data;
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
             return null;
         }
 
-        public static void Mtain()
+        public static void ImportSQl(String filename)
         {
-            Connect();
-            Console.WriteLine(AlayName.IsAlayNameMatch("bgs smbg", "Bagas Sambega"));
-            String name = FindBiodata("test/1.jpg");
-            Console.WriteLine (name);
-            Dictionary<String, String> data = ReturnBiodata(name);
-            if (data  != null)
+            String sql = File.ReadAllText(filename);
+            string[] sqlStatements = sql.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (String statement in sqlStatements)
             {
-                try
+                String trimmed = statement.Trim();
+                if (trimmed.StartsWith("INSERT INTO biodata", StringComparison.OrdinalIgnoreCase))
                 {
-                    foreach(KeyValuePair<String, String> pair in data)
+                    String test = ModifyInsert(trimmed);
+                    Console.WriteLine(trimmed);
+                }
+                else
+                {
+                    using (MySqlCommand command = new MySqlCommand(trimmed, connection))
                     {
-                        Console.WriteLine($"{pair.Key} = {pair.Value}");
+                        command.ExecuteNonQuery();
                     }
-                } catch(Exception e)
-                {
-                    Console.WriteLine(e.Message);
                 }
             }
+
+            using (MySqlCommand command = new MySqlCommand(sql, connection))
+            {
+                command.ExecuteNonQuery();
+            }
+
+            Console.WriteLine("SQL file imported successfully.");
         }
 
+        /*public static void Seeding()
+        {
+            MySqlDataReader query = Select("SELECT nama FROM ")
+        } */
+        public static String ModifyInsert(String statement)
+        {
+            String pattern = @"VALUES\s*\(([^)]+)\)";
+            MatchCollection matches = Regex.Matches(statement, pattern, RegexOptions.IgnoreCase);
+            foreach (Match match in matches)
+            {
+                string entireMatch = match.Groups[0].Value; // Extracts the entire match including "VALUES"
+                string values = match.Groups[1].Value;
+                string[] item = values.Split(new[] { "," }, StringSplitOptions.None);
+
+                foreach (string value in item)
+                {
+                    Console.WriteLine(value);
+                }
+
+                string name = item[0];
+            }
+            return pattern;
+        }
     }
+
+
 }

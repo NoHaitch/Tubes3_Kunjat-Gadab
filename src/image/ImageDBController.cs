@@ -15,16 +15,9 @@ namespace src.image
         /// <param name="filename">File name path of uploaded fingerprint, need to be relative (path/*.bmp)</param>
         /// <param name="method">Method used, between Knuth-Morris-Pratt or Boyer-Moore</param>
         /// <returns></returns>
-        public static String processImage(String filename, String method)
+        public static String ProcessImage(String filename)
         {
-            // TODO use the method
-
-            if (method == "KMP")
-            {
-
-            }
-
-            String name = Database.FindBiodata(filename);
+            (String name, String origin) = Database.FindBiodata(filename);
             String result = "";
             if (name != null) {
                 Dictionary<String, String> data = Database.ReturnBiodata(name);
@@ -32,9 +25,15 @@ namespace src.image
                 {
                     foreach (KeyValuePair<String, String> pair in data)
                     {
-                        result += pair.Value;
-                        result += " : ";
                         result += pair.Key;
+                        result += " : ";
+                        if (pair.Key == "nama")
+                        {
+                            result += origin;
+                        } else
+                        {
+                            result += pair.Value;
+                        }
                         result += "\n\n";
                     }
                 }

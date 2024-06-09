@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using src.image;
 
 namespace src.gui
 {
@@ -20,6 +21,7 @@ namespace src.gui
         private Dictionary<string, string> asciiMap;
         private string matchingName;
         private float percentage;
+        private string result;
 
         public Form1(Dictionary<string, string> _asciiMap)
         {
@@ -146,8 +148,10 @@ namespace src.gui
                 else
                 {
                     this.matchPercentageText.Text = $"Match: {Math.Round(this.percentage).ToString()}%";
-                    this.matchingName = "test/" + this.matchingName;
                     this.matchPercentageText.Show();
+                    Console.WriteLine (this.matchingName + "Masuk");
+                    this.result = ImageDBController.ProcessImage(this.matchingName);
+                    Console.WriteLine(result);
                 }
                 this.timeTakenText.Show();
             }
