@@ -148,9 +148,9 @@ namespace src.gui
                 else
                 {
                     this.matchPercentageText.Text = $"Match: {Math.Round(this.percentage).ToString()}%";
-                    this.matchingName = "test/" + this.matchingName;
                     this.matchPercentageText.Show();
-                    this.result = ImageDBController.ProcessImage("matchingName");
+                    Console.WriteLine (this.matchingName + "Masuk");
+                    this.result = ImageDBController.ProcessImage(this.matchingName);
                     Console.WriteLine(result);
                 }
                 this.timeTakenText.Show();
