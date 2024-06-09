@@ -47,7 +47,7 @@ namespace src.image
         /// <returns>String of character 1 or 0</returns>
         public static string ConvertImageToBinary(string imgPath)
         {
-            Console.WriteLine(imgPath);
+            // Console.WriteLine(imgPath);
             Bitmap image = new Bitmap(imgPath);
             int width = image.Width;
             int height = image.Height;

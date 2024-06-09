@@ -15,7 +15,7 @@ namespace src.stringMatching
         {
             if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(pattern))
             {
-                Console.WriteLine("NULL");
+                // Console.WriteLine("NULL");
                 return false;
             }
 

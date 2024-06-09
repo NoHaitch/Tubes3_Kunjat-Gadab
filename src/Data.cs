@@ -30,7 +30,7 @@ namespace src
             }
             else
             {
-                Console.WriteLine($"{folderPath} exist");
+                // Console.WriteLine($"{folderPath} exist");
             }
 
             List<String> bmpFiles = Database.SelectAllFingerprintImages();
@@ -38,7 +38,7 @@ namespace src
             for ( int j = 0; j < fileCount; j++ )
             {
                 bmpFiles[j] = Path.Combine(folderPath, bmpFiles[j].Trim());
-                Console.WriteLine(bmpFiles[j]);
+                // Console.WriteLine(bmpFiles[j]);
             }
             if (fileCount == 0)
             {

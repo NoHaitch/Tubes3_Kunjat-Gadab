@@ -69,7 +69,7 @@ namespace src
             else if (successfulMatches.Count == 1)
             {
                 result = successfulMatches[0];
-                Console.WriteLine($"Succesfull Pattern Match: {maxMatches}");
+                // Console.WriteLine($"Succesfull Pattern Match: {maxMatches}");
             }
             else
             {
@@ -141,7 +141,7 @@ namespace src
             else if (successfulMatches.Count == 1)
             {
                 result = successfulMatches[0];
-                Console.WriteLine($"Succesfull Pattern Match: {maxMatches}");
+                // Console.WriteLine($"Succesfull Pattern Match: {maxMatches}");
             }
             else
             {
@@ -312,7 +312,7 @@ namespace src
             }
 
             // Print the count of images with the same Levenshtein match percentage
-            Console.WriteLine($"Images with the same Levenshtein match percentage: {closestImages.Count}");
+            // Console.WriteLine($"Images with the same Levenshtein match percentage: {closestImages.Count}");
 
             matchPercent = maxMatchPercent;
             return closestImages[0];

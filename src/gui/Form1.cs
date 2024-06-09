@@ -72,18 +72,6 @@ namespace src.gui
             this.minimizeButton.ForeColor = System.Drawing.Color.White;
         }
 
-        /*
-        private void prevButton_clicked(object sender, EventArgs e)
-        {
-
-        }
-
-        private void nextButton_clicked(object sender, EventArgs e)
-        {
-
-        }
-        */
-
         private void SelectFileButton_click(object sender, EventArgs e)
         {
             using (selectImageDialog = new OpenFileDialog())
@@ -122,13 +110,13 @@ namespace src.gui
                 if (isKMP)
                 {
                    (this.matchingName, this.percentage) = FingerprintMatching.FingerprintAnalysisKMP(this.absolutePath, this.asciiMap);
-                    Console.WriteLine(this.matchingName);
+                    // Console.WriteLine(this.matchingName);
                     noException = true;
                 }
                 else
                 {
                     (this.matchingName, this.percentage) = FingerprintMatching.FingerprintAnalysisBM(this.absolutePath, this.asciiMap);
-                    Console.WriteLine(this.matchingName);
+                    // Console.WriteLine(this.matchingName);
                     noException = true;
                 }
             }
@@ -146,16 +134,18 @@ namespace src.gui
                 if (this.matchingName == null)
                 {
                     this.fingerBox.Image = this.fingerBox.InitialImage;
-                    this.identityLabel.Text = "";
+                    this.identityLabel.Text = "Identity Not Found\n";
+                    this.identityLabel.TextAlign = ContentAlignment.MiddleCenter;
                 }
                 else
                 {
                     this.matchPercentageText.Text = $"Match: {Math.Round(this.percentage).ToString()}%";
                     this.matchPercentageText.Show();
                     this.result = ImageDBController.ProcessImage(this.matchingName);
-                    this.identityLabel.Text = this.result.ToString();
                     this.fingerBox.Image = Image.FromFile(@"..\..\..\test\" + this.matchingName);
-                    Console.WriteLine(result);
+                    this.identityLabel.Text = this.result.ToString();
+                    this.identityLabel.TextAlign = ContentAlignment.TopLeft;
+                    // Console.WriteLine(result);
                 }
                 this.timeTakenText.Show();
             }

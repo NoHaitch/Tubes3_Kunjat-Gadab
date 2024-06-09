@@ -18,11 +18,6 @@ class Program
         Console.WriteLine("Connected to databases");
         //Database.ImportSQL(@"..\..\database\insert.sql");
         string folderPath = @"..\..\..\test";
-        /*
-        string easyTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Easy\\431__M_Left_little_finger_CR.BMP";
-        string mediumTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Medium\\431__M_Left_little_finger_CR.BMP";
-        string hardTargetPath = "D:\\Git_Repository\\Tubes3_Kunjat-Gadab\\test\\archive\\SOCOFing\\Altered\\Altered-Hard\\431__M_Left_little_finger_CR.BMP";
-        */
 
         Stopwatch stopwatch0 = Stopwatch.StartNew();
         Data.ReadImagesConcurrent(folderPath);
@@ -34,39 +29,5 @@ class Program
 
         Application.EnableVisualStyles();
         Application.Run(new Form1(asciiMap));
-
-        /*
-        Stopwatch stopwatch1 = Stopwatch.StartNew();
-        string resultEasy1 = FingerprintMatching.FingerprintAnalysisBM(easyTargetPath, asciiMap);
-        stopwatch1.Stop();
-
-        Stopwatch stopwatch2 = Stopwatch.StartNew();
-        string resultEasy2 = FingerprintMatching.FingerprintAnalysisKMP(easyTargetPath, asciiMap);
-        stopwatch2.Stop();
-
-        string resultMedium1 = FingerprintMatching.FingerprintAnalysisBM(mediumTargetPath, asciiMap);
-        string resultMedium2 = FingerprintMatching.FingerprintAnalysisKMP(mediumTargetPath, asciiMap);
-
-        string resultHard1 = FingerprintMatching.FingerprintAnalysisBM(hardTargetPath, asciiMap);
-        string resultHard2 = FingerprintMatching.FingerprintAnalysisKMP(hardTargetPath, asciiMap);
-
-        Console.WriteLine($"Pattern Image: {easyTargetPath}");
-        Console.WriteLine($"Source: {folderPath}");
-        Console.WriteLine("Resulting Match: \n");
-
-        Console.WriteLine($"\nFingerprintAnalysisBM took {stopwatch1.ElapsedMilliseconds} ms.");
-        Console.WriteLine($"FingerprintAnalysisBM took {stopwatch1.ElapsedMilliseconds} ms.");
-        Console.WriteLine($"Result Easy BM: {resultEasy1}\n");
-
-        Console.WriteLine($"\nFingerprintAnalysisKMP took {stopwatch2.ElapsedMilliseconds} ms.");
-        Console.WriteLine($"FingerprintAnalysisKMP took {stopwatch2.ElapsedMilliseconds} ms.");
-        Console.WriteLine($"Result Easy KMP: {resultEasy2}\n");
-
-        Console.WriteLine($"Result Medium BM: {resultMedium1}\n");
-        Console.WriteLine($"Result Medium KMP: {resultMedium2}\n");
-
-        Console.WriteLine($"Result Hard BM: {resultHard1}\n");
-        Console.WriteLine($"Result Hard KMP: {resultHard2}\n");
-        */
     }
 }
