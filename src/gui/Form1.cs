@@ -107,12 +107,14 @@ namespace src.gui
                 this.fingerBox.Image = null;
                 this.timeTakenText.Hide();
                 this.matchPercentageText.Hide();
+                this.identityLabel.Text = "";
             }
         }
 
         private void SearchButton_click(object sender, EventArgs e)
         {
             this.fingerBox.Image = null;
+            this.identityLabel.Text = "";
             Stopwatch stopwatch = Stopwatch.StartNew();
             bool noException = false;
             try
@@ -144,13 +146,15 @@ namespace src.gui
                 if (this.matchingName == null)
                 {
                     this.fingerBox.Image = this.fingerBox.InitialImage;
+                    this.identityLabel.Text = "";
                 }
                 else
                 {
                     this.matchPercentageText.Text = $"Match: {Math.Round(this.percentage).ToString()}%";
                     this.matchPercentageText.Show();
-                    Console.WriteLine (this.matchingName + "Masuk");
                     this.result = ImageDBController.ProcessImage(this.matchingName);
+                    this.identityLabel.Text = this.result.ToString();
+                    this.fingerBox.Image = Image.FromFile(@"..\..\..\test\" + this.matchingName);
                     Console.WriteLine(result);
                 }
                 this.timeTakenText.Show();
