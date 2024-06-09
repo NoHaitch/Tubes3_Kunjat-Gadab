@@ -77,9 +77,9 @@ namespace src
             }
 
             // Check the match percentage threshold
-            if (matchPercent < 70)
+            if (matchPercent < 73)
             {
-                result = "";
+                result = null;
             }
 
             return (result, matchPercent);
@@ -148,9 +148,9 @@ namespace src
             }
 
             // Check the match percentage threshold
-            if (matchPercent < 70)
+            if (matchPercent < 73)
             {
-                result = "";
+                result = null;
             }
 
             return (result, matchPercent);
